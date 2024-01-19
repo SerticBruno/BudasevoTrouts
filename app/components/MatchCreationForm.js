@@ -7,21 +7,13 @@ import {
   Typography,
   Paper,
   Grid,
-  List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import GamesContext from "../contexts/GamesContext";
 import PlayersContext from "../contexts/PlayersContext";
-import RemoveIcon from "@mui/icons-material/Remove";
-import Avatar from '@mui/material/Avatar';
-
+import TeamList from "./TeamList"; // Import TeamList component
+import PlayerSelection from "./PlayerSelection";
 
 const MatchCreationForm = ({ onMatchCreate }) => {
   const today = new Date().toISOString().split("T")[0];
@@ -32,22 +24,11 @@ const MatchCreationForm = ({ onMatchCreate }) => {
     date: today,
     location: "",
     team1: [],
+    team1Score: 0,
     team2: [],
+    team2Score: 0,
   });
   const [selectedPlayers, setSelectedPlayers] = useState([]);
-
-  const renderPlayerListItem = (playerId) => {
-    const player = players.find(p => p._id === playerId);
-    if (player) {
-      return (
-        <ListItem key={playerId}>
-          <Avatar sx={{ bgcolor: "gray", mr: 2 }}>{player.name.charAt(0)}</Avatar>
-          <ListItemText primary={player.name} secondary={`Position: ${player.position}`} />
-        </ListItem>
-      );
-    }
-    return null;
-  };
 
   const handleChange = (event) => {
     setMatchDetails({
@@ -56,19 +37,9 @@ const MatchCreationForm = ({ onMatchCreate }) => {
     });
   };
 
-  const handleAddPlayer = (playerId) => {
-    if (selectedPlayers.length < 14 && !selectedPlayers.includes(playerId)) {
-      setSelectedPlayers([...selectedPlayers, playerId]);
-    }
-  };
-
-  const handleRemovePlayer = (playerId) => {
-    setSelectedPlayers(selectedPlayers.filter((id) => id !== playerId));
-  };
-
   const assignTeamsBalanced = () => {
-    let playersByPosition = { '1': [], '2': [], '3': [], '4': [], '5': [] };
-  
+    let playersByPosition = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+
     // Group players by position
     selectedPlayers.forEach((playerId) => {
       const player = players.find((p) => p._id === playerId);
@@ -76,41 +47,50 @@ const MatchCreationForm = ({ onMatchCreate }) => {
         playersByPosition[player.position].push(playerId);
       }
     });
-  
-    let team1 = [], team2 = [];
+
+    let team1 = [],
+      team2 = [];
     Object.keys(playersByPosition).forEach((position) => {
       let positionPlayers = playersByPosition[position];
       positionPlayers.sort(() => Math.random() - 0.5);
-  
+
       // Distribute players to teams, with extra player going to the smaller team
       positionPlayers.forEach((playerId, index) => {
-        if (index % 2 === 0 || (index === positionPlayers.length - 1 && team1.length > team2.length)) {
+        if (
+          index % 2 === 0 ||
+          (index === positionPlayers.length - 1 && team1.length > team2.length)
+        ) {
           team2.push(playerId);
         } else {
           team1.push(playerId);
         }
       });
     });
-  
+
     // If teams are uneven, move a player from the larger team to the smaller team
     if (team1.length !== team2.length) {
-      let [largerTeam, smallerTeam] = team1.length > team2.length ? [team1, team2] : [team2, team1];
+      let [largerTeam, smallerTeam] =
+        team1.length > team2.length ? [team1, team2] : [team2, team1];
       let moved = false;
-  
+
       // Try to move a player while maintaining position balance
       for (let position = 1; position <= 5 && !moved; position++) {
-        let playerToMove = largerTeam.find(playerId => {
-          return players.find(p => p._id === playerId).position == position &&
-                 smallerTeam.every(pId => players.find(p => p._id === pId).position !== position);
+        let playerToMove = largerTeam.find((playerId) => {
+          return (
+            players.find((p) => p._id === playerId).position == position &&
+            smallerTeam.every(
+              (pId) => players.find((p) => p._id === pId).position !== position
+            )
+          );
         });
-        
+
         if (playerToMove) {
-          largerTeam = largerTeam.filter(pId => pId !== playerToMove);
+          largerTeam = largerTeam.filter((pId) => pId !== playerToMove);
           smallerTeam.push(playerToMove);
           moved = true;
         }
       }
-  
+
       // Update the teams only if a player was moved
       if (moved) {
         if (team1.length > team2.length) {
@@ -120,20 +100,12 @@ const MatchCreationForm = ({ onMatchCreate }) => {
         }
       }
     }
-  
+
     setMatchDetails({
       ...matchDetails,
       team1,
       team2,
     });
-  };
-  
-
-  const getPlayerNamesByIds = (selectedIds) => {
-    return selectedIds
-      .map((id) => players.find((player) => player._id === id)?.name)
-      .filter((name) => name)
-      .join(", ");
   };
 
   const handleSubmit = async (event) => {
@@ -210,29 +182,14 @@ const MatchCreationForm = ({ onMatchCreate }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Select 14 Players</InputLabel>
-              <Select
-                multiple
-                value={selectedPlayers}
-                onChange={(e) => {
-                  setSelectedPlayers(e.target.value);
-                }}
-                renderValue={(selected) =>
-                  getPlayerNamesByIds(selected).split(", ").join(", ")
-                }
-                label="Select 14 Players"
-              >
-                {players.map((player) => (
-                  <MenuItem key={player._id} value={player._id}>
-                    {player.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <PlayerSelection
+              players={players}
+              selectedPlayers={selectedPlayers}
+              setSelectedPlayers={setSelectedPlayers}
+            />
             <Button
               variant="outlined"
-              onClick={assignTeamsBalanced} // Changed to use the new balanced assignment
+              onClick={assignTeamsBalanced}
               sx={{ mt: 2 }}
             >
               Assign Teams Balanced
@@ -240,15 +197,11 @@ const MatchCreationForm = ({ onMatchCreate }) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="h6">Team 1 Players</Typography>
-            <List>
-              {matchDetails.team1.map(renderPlayerListItem)}
-            </List>
+            <TeamList team={matchDetails.team1} />
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="h6">Team 2 Players</Typography>
-            <List>
-              {matchDetails.team2.map(renderPlayerListItem)}
-            </List>
+            <TeamList team={matchDetails.team2} />
           </Grid>
         </Grid>
         <Button
@@ -266,10 +219,6 @@ const MatchCreationForm = ({ onMatchCreate }) => {
         >
           Create Match
         </Button>
-      </form>
-      <form onSubmit={handleSubmit}>
-        {/* Form content unchanged */}
-        {/* Remaining form content unchanged */}
       </form>
     </Paper>
   );

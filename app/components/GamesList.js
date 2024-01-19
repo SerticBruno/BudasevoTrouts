@@ -27,6 +27,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import GamesContext from "../contexts/GamesContext";
 import MatchEditForm from "./MatchEditForm";
 import PlayersContext from "../contexts/PlayersContext"; // Import PlayersContext
+import GameAccordion from './GameAccordion';
 
 const GamesList = () => {
   const { games, refreshGames } = useContext(GamesContext);
@@ -76,67 +77,12 @@ const GamesList = () => {
         Matches
       </Typography>
       {games.map((game, index) => (
-        <Accordion key={index}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{game.name}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                {/* Match Details */}
-                <Typography variant="subtitle1">Match Details:</Typography>
-                <Typography>Name: {game.name}</Typography>
-                <Typography>Location: {game.location}</Typography>
-                <Typography>Status: {game.status}</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                {/* Team 1 */}
-                <Typography variant="subtitle1">Team 1:</Typography>
-                <List>
-                  {game.team1.map((playerId) => (
-                    <ListItem key={playerId}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          {players.find((player) => player._id === playerId)?.name.charAt(0)}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={players.find((player) => player._id === playerId)?.name}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
-              <Grid item xs={6}>
-                {/* Team 2 */}
-                <Typography variant="subtitle1">Team 2:</Typography>
-                <List>
-                  {game.team2.map((playerId) => (
-                    <ListItem key={playerId}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          {players.find((player) => player._id === playerId)?.name.charAt(0)}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={players.find((player) => player._id === playerId)?.name}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
-            <Divider sx={{ mt: 2, mb: 2 }} />
-            <Grid container justifyContent="flex-end">
-              <IconButton onClick={() => handleEditClick(game)}>
-                <EditIcon />
-              </IconButton>
-              <IconButton onClick={() => handleDeleteClick(game)}>
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
+        <GameAccordion
+          key={index}
+          game={game}
+          onEdit={handleEditClick}
+          onDelete={handleDeleteClick}
+        />
       ))}
 
       {editMatch && (
