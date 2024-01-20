@@ -218,6 +218,85 @@ export default async function handler(req, res) {
         mostCommonTeammateId
       );
 
+      let teammateWinCount = {};
+      let teammateLossCount = {};
+      let teammateDrawCount = {};
+
+      matches.forEach((match) => {
+        const team1Ids = match.team1.map((id) => id.toString());
+        const team2Ids = match.team2.map((id) => id.toString());
+        const playerInTeam1 = team1Ids.includes(player._id.toString());
+        const playerInTeam2 = team2Ids.includes(player._id.toString());
+
+        const teammatesIds = playerInTeam1 ? team1Ids : team2Ids;
+        const team1Score = parseInt(match.team1Score, 10);
+        const team2Score = parseInt(match.team2Score, 10);
+
+        const playerTeamWon =
+          (playerInTeam1 && team1Score > team2Score) ||
+          (playerInTeam2 && team2Score > team1Score);
+        const playerTeamLost =
+          (playerInTeam1 && team1Score < team2Score) ||
+          (playerInTeam2 && team2Score < team1Score);
+        const matchDrawn = team1Score === team2Score;
+
+        teammatesIds.forEach((teammateId) => {
+          if (teammateId !== player._id.toString()) {
+            if (playerTeamWon) {
+              teammateWinCount[teammateId] =
+                (teammateWinCount[teammateId] || 0) + 1;
+            } else if (playerTeamLost) {
+              teammateLossCount[teammateId] =
+                (teammateLossCount[teammateId] || 0) + 1;
+            } else if (matchDrawn) {
+              teammateDrawCount[teammateId] =
+                (teammateDrawCount[teammateId] || 0) + 1;
+            }
+          }
+        });
+      });
+
+      // Find the teammate with the most wins
+      let maxWins = 0;
+      let teammateWithMostWinsId = "";
+      for (const [teammateId, wins] of Object.entries(teammateWinCount)) {
+        if (wins > maxWins) {
+          maxWins = wins;
+          teammateWithMostWinsId = teammateId;
+        }
+      }
+
+      // Get the number of losses and draws with that teammate
+      const lossesWithTeammateWithMostWins =
+        teammateLossCount[teammateWithMostWinsId] || 0;
+      const drawsWithTeammateWithMostWins =
+        teammateDrawCount[teammateWithMostWinsId] || 0;
+
+      // Assuming you have a way to get player names from their IDs
+      const teammateWithMostWinsName = players.find(
+        (p) => p._id.toString() === teammateWithMostWinsId
+      )?.name;
+
+      let maxLosses = 0;
+      let teammateWithMostLossesId = "";
+      for (const [teammateId, losses] of Object.entries(teammateLossCount)) {
+        if (losses > maxLosses) {
+          maxLosses = losses;
+          teammateWithMostLossesId = teammateId;
+        }
+      }
+      // Get the name of the teammate with the most losses
+      const teammateWithMostLossesName = getMostCommonTeammateName(
+        players,
+        teammateWithMostLossesId
+      );
+
+      const teammateWithMostLossesWinsCount =
+        teammateWinCount[teammateWithMostLossesId] || 0;
+      const teammateWithMostLossesDrawsCount =
+        teammateDrawCount[teammateWithMostLossesId] || 0;
+
+
       return {
         ...player,
         gamesPlayed,
@@ -237,6 +316,14 @@ export default async function handler(req, res) {
         winsWithMostCommonTeammate,
         lossesWithMostCommonTeammate,
         drawsWithMostCommonTeammate,
+        teammateWithMostWinsName,
+        teammateWithMostWinsCount: maxWins,
+        teammateWithMostWinsLossesCount: lossesWithTeammateWithMostWins,
+        drawsWithTeammateWithMostWins,
+        teammateWithMostLossesName,
+        teammateWithMostLossesCount: maxLosses,
+        teammateWithMostLossesWinsCount,
+        teammateWithMostLossesDrawsCount,
       };
     });
 

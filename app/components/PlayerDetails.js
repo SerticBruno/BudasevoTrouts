@@ -52,21 +52,21 @@ const PlayerDetails = ({ player }) => {
   };
 
   const opponentData = {
-    labels: ["Games Played", "Wins", "Draws", "Losses"],
+    labels: ["Games Played", "Wins", "Losses", "Draws"],
     datasets: [
       {
         label: `Performance Against ${player.mostCommonOpponent}`,
         data: [
           player.gamesPlayedAgainstMostCommon,
           player.winsAgainstMostCommon,
-          player.drawsAgainstMostCommon,
           player.lossesAgainstMostCommon,
+          player.drawsAgainstMostCommon,
         ],
         backgroundColor: [
           theme.palette.primary.main,
           theme.palette.success.main,
-          theme.palette.info.main,
           theme.palette.error.main,
+          theme.palette.info.main,
         ],
       },
     ],
@@ -84,23 +84,69 @@ const PlayerDetails = ({ player }) => {
   };
 
   const teammateResultsData = {
-    labels: ["Wins", "Draws", "Losses"],
+    labels: ["Wins", "Losses", "Draws"],
     datasets: [
       {
         label: "Results with " + player.mostCommonTeammateName,
         data: [
           player.winsWithMostCommonTeammate,
-          player.drawsWithMostCommonTeammate,
           player.lossesWithMostCommonTeammate,
+          player.drawsWithMostCommonTeammate,
         ],
         backgroundColor: [
           theme.palette.success.main,
-          theme.palette.warning.main,
           theme.palette.error.main,
+          theme.palette.warning.main,
         ],
       },
     ],
   };
+
+  const teammateWinsData = {
+    labels: ["Total Games", "Wins", "Losses", "Draws"],
+    datasets: [
+      {
+        label: `Results with ${player.teammateWithMostWinsName}`,
+        data: [
+          player.teammateWithMostWinsCount + player.teammateWithMostWinsLossesCount + player.drawsWithTeammateWithMostWins,
+          player.teammateWithMostWinsCount,
+          player.teammateWithMostWinsLossesCount,
+          player.drawsWithTeammateWithMostWins,
+        ],
+        backgroundColor: [
+          theme.palette.primary.main,
+          theme.palette.success.main,
+          theme.palette.info.main,
+          theme.palette.warning.main,
+        ],
+      },
+    ],
+  };
+
+  const teammateWithMostLossesData = {
+    labels: ["Total Games", "Wins", "Losses", "Draws"],
+    datasets: [
+      {
+        label: `Results with ${player.teammateWithMostLossesName}`,
+        data: [ 
+          player.teammateWithMostLossesWinsCount + player.teammateWithMostLossesCount + player.teammateWithMostLossesDrawsCount,
+          player.teammateWithMostLossesWinsCount,
+          player.teammateWithMostLossesCount,
+          player.teammateWithMostLossesDrawsCount,
+        ],
+        backgroundColor: [
+          theme.palette.primary.main,
+          theme.palette.success.main,
+          theme.palette.error.main,
+          theme.palette.warning.main,
+        ],
+      },
+    ],
+  };
+
+  console.log(player.teammateWithMostLossesWinsCount);
+  console.log(player.teammateWithMostLossesCount);
+  console.log(player.teammateWithMostLossesDrawsCount);
 
   const chartOptions = {
     maintainAspectRatio: true,
@@ -117,39 +163,6 @@ const PlayerDetails = ({ player }) => {
       <Typography variant="subtitle1">Name: {player.name}</Typography>
       <Typography variant="subtitle2">Position: {player.position}</Typography>
       <Typography variant="subtitle2">Score: {player.score}</Typography>
-
-      <Typography variant="subtitle2">
-        Games Played: {player.gamesPlayed}
-      </Typography>
-      <Typography variant="subtitle2">Games Won: {player.gamesWon}</Typography>
-      <Typography variant="subtitle2">
-        Games Lost: {player.gamesLost}
-      </Typography>
-      <Typography variant="subtitle2">
-        Games Draw: {player.gamesDraw}
-      </Typography>
-      <Typography variant="subtitle2">
-        Total Matches: {player.totalMatches}
-      </Typography>
-      <Typography variant="subtitle2">
-        Total Matches: {player.totalMatches}
-      </Typography>
-      <Typography variant="subtitle2">
-        mostCommonTeammateName: {player.mostCommonTeammateName}
-      </Typography>
-      <Typography variant="subtitle2">
-        gamesPlayedWithMostCommonTeammate:{" "}
-        {player.gamesPlayedWithMostCommonTeammate}
-      </Typography>
-      <Typography variant="subtitle2">
-        winsWithMostCommonTeammate: {player.winsWithMostCommonTeammate}
-      </Typography>
-      <Typography variant="subtitle2">
-        lossesWithMostCommonTeammate: {player.lossesWithMostCommonTeammate}
-      </Typography>
-      <Typography variant="subtitle2">
-        drawsWithMostCommonTeammate: {player.drawsWithMostCommonTeammate}
-      </Typography>
 
       <Box my={2} sx={{ maxWidth: 400 }}>
         <Typography>Win Ratio</Typography>
@@ -187,6 +200,19 @@ const PlayerDetails = ({ player }) => {
         </Typography>
         <Typography>Performance Against {player.mostCommonOpponent}</Typography>
         <Bar data={opponentData} options={chartOptions} />
+      </Box>
+      
+      <Box my={2} sx={{ maxWidth: 400 }}>
+        <Typography variant="subtitle2">
+          Teammate with most wins: {player.teammateWithMostWinsName}
+        </Typography>
+        <Bar data={teammateWinsData} options={chartOptions} />
+      </Box>
+      <Box my={2} sx={{ maxWidth: 400 }}>
+        <Typography variant="subtitle2">
+          Teammate with most losses: {player.teammateWithMostLossesName}
+        </Typography>
+        <Bar data={teammateWithMostLossesData} options={chartOptions} />
       </Box>
     </Box>
   );
