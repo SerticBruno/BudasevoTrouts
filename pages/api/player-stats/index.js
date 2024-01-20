@@ -135,6 +135,89 @@ export default async function handler(req, res) {
         }
       });
 
+      let gamesPlayedWithMostCommonTeammate = 0;
+      let winsWithMostCommonTeammate = 0;
+      let lossesWithMostCommonTeammate = 0;
+      let drawsWithMostCommonTeammate = 0;
+
+      // Step 1: Identify the Most Common Teammate
+      const teammateFrequency = {};
+
+      matches.forEach((match) => {
+        const team1Ids = Array.isArray(match.team1)
+          ? match.team1.map((id) => id.toString())
+          : [];
+        const team2Ids = Array.isArray(match.team2)
+          ? match.team2.map((id) => id.toString())
+          : [];
+
+        const playerInTeam1 = team1Ids.includes(player._id.toString());
+        const playerInTeam2 = team2Ids.includes(player._id.toString());
+
+        // Ensure teammatesIds is always an array
+        const teammatesIds = playerInTeam1
+          ? team1Ids
+          : playerInTeam2
+          ? team2Ids
+          : [];
+
+        teammatesIds.forEach((teammateId) => {
+          if (teammateId !== player._id.toString()) {
+            teammateFrequency[teammateId] =
+              (teammateFrequency[teammateId] || 0) + 1;
+          }
+        });
+      });
+
+      const mostCommonTeammateId = Object.keys(teammateFrequency).reduce(
+        (a, b) => (teammateFrequency[a] > teammateFrequency[b] ? a : b)
+      );
+
+      // Step 2: Calculate Wins, Losses, and Draws With That Teammate
+      matches.forEach((match) => {
+        const team1Ids = Array.isArray(match.team1)
+          ? match.team1.map((id) => id.toString())
+          : [];
+        const team2Ids = Array.isArray(match.team2)
+          ? match.team2.map((id) => id.toString())
+          : [];
+
+        const playerInTeam1 = team1Ids.includes(player._id.toString());
+        const playerInTeam2 = team2Ids.includes(player._id.toString());
+        const teammateInSameTeam =
+          (playerInTeam1 && team1Ids.includes(mostCommonTeammateId)) ||
+          (playerInTeam2 && team2Ids.includes(mostCommonTeammateId));
+
+        if (teammateInSameTeam) {
+          gamesPlayedWithMostCommonTeammate++;
+
+          const team1Score = parseInt(match.team1Score, 10);
+          const team2Score = parseInt(match.team2Score, 10);
+
+          if (team1Score === team2Score) {
+            drawsWithMostCommonTeammate++;
+          } else if (
+            (playerInTeam1 && team1Score > team2Score) ||
+            (playerInTeam2 && team2Score > team1Score)
+          ) {
+            winsWithMostCommonTeammate++;
+          } else {
+            lossesWithMostCommonTeammate++;
+          }
+        }
+      });
+
+      function getMostCommonTeammateName(players, mostCommonTeammateId) {
+        return players.find((p) => p._id.toString() === mostCommonTeammateId)
+          ?.name;
+      }
+
+      // Usage of the function
+      const mostCommonTeammateName = getMostCommonTeammateName(
+        players,
+        mostCommonTeammateId
+      );
+
       return {
         ...player,
         gamesPlayed,
@@ -149,6 +232,11 @@ export default async function handler(req, res) {
         drawsAgainstMostCommon,
         lossesAgainstMostCommon,
         winRatio,
+        mostCommonTeammateName,
+        gamesPlayedWithMostCommonTeammate,
+        winsWithMostCommonTeammate,
+        lossesWithMostCommonTeammate,
+        drawsWithMostCommonTeammate,
       };
     });
 

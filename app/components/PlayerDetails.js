@@ -83,6 +83,25 @@ const PlayerDetails = ({ player }) => {
     ],
   };
 
+  const teammateResultsData = {
+    labels: ["Wins", "Draws", "Losses"],
+    datasets: [
+      {
+        label: "Results with " + player.mostCommonTeammateName,
+        data: [
+          player.winsWithMostCommonTeammate,
+          player.drawsWithMostCommonTeammate,
+          player.lossesWithMostCommonTeammate,
+        ],
+        backgroundColor: [
+          theme.palette.success.main,
+          theme.palette.warning.main,
+          theme.palette.error.main,
+        ],
+      },
+    ],
+  };
+
   const chartOptions = {
     maintainAspectRatio: true,
     aspectRatio: 2,
@@ -99,7 +118,6 @@ const PlayerDetails = ({ player }) => {
       <Typography variant="subtitle2">Position: {player.position}</Typography>
       <Typography variant="subtitle2">Score: {player.score}</Typography>
 
-
       <Typography variant="subtitle2">
         Games Played: {player.gamesPlayed}
       </Typography>
@@ -112,6 +130,25 @@ const PlayerDetails = ({ player }) => {
       </Typography>
       <Typography variant="subtitle2">
         Total Matches: {player.totalMatches}
+      </Typography>
+      <Typography variant="subtitle2">
+        Total Matches: {player.totalMatches}
+      </Typography>
+      <Typography variant="subtitle2">
+        mostCommonTeammateName: {player.mostCommonTeammateName}
+      </Typography>
+      <Typography variant="subtitle2">
+        gamesPlayedWithMostCommonTeammate:{" "}
+        {player.gamesPlayedWithMostCommonTeammate}
+      </Typography>
+      <Typography variant="subtitle2">
+        winsWithMostCommonTeammate: {player.winsWithMostCommonTeammate}
+      </Typography>
+      <Typography variant="subtitle2">
+        lossesWithMostCommonTeammate: {player.lossesWithMostCommonTeammate}
+      </Typography>
+      <Typography variant="subtitle2">
+        drawsWithMostCommonTeammate: {player.drawsWithMostCommonTeammate}
       </Typography>
 
       <Box my={2} sx={{ maxWidth: 400 }}>
@@ -136,30 +173,19 @@ const PlayerDetails = ({ player }) => {
         <Pie data={attendanceData} options={chartOptions} />
       </Box>
 
-      
-      <Typography variant="subtitle2">
-        Most Common Opponent: {player.mostCommonOpponent}
-      </Typography>
-      <Typography variant="subtitle2">
-        Games Against {player.mostCommonOpponent}:{" "}
-        {player.gamesPlayedAgainstMostCommon}
-      </Typography>
-      <Typography variant="subtitle2">
-        Wins Against {player.mostCommonOpponent}: {player.winsAgainstMostCommon}
-      </Typography>
-      <Typography variant="subtitle2">
-        Draws Against {player.mostCommonOpponent}:{" "}
-        {player.winsAgainstMostCommon}
-      </Typography>
-      <Typography variant="subtitle2">
-        Losses Against {player.mostCommonOpponent}:{" "}
-        {player.winsAgainstMostCommon}
-      </Typography>
+      <Box my={2} sx={{ maxWidth: 400 }}>
+        <Typography>
+          Most common teammate: {player.mostCommonTeammateName}
+        </Typography>
+        <Typography>Results with {player.mostCommonTeammateName}</Typography>
+        <Pie data={teammateResultsData} options={chartOptions} />
+      </Box>
 
       <Box my={2} sx={{ maxWidth: 400 }}>
         <Typography>
-          Performance Against {player.mostCommonOpponent}
+          Most Common Opponent: {player.mostCommonOpponent}
         </Typography>
+        <Typography>Performance Against {player.mostCommonOpponent}</Typography>
         <Bar data={opponentData} options={chartOptions} />
       </Box>
     </Box>

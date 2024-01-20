@@ -4,6 +4,7 @@
 import React, { useState, useContext } from "react";
 import { TextField, Button, Typography, Box, Paper, Grid } from "@mui/material";
 import PlayersContext from "../contexts/PlayersContext";
+import CourtPositionSelector from "./CourtPositionSelector";
 
 const PlayerCreationForm = ({ onPlayerCreate }) => {
   const { fetchPlayers } = useContext(PlayersContext); // Using the context
@@ -80,82 +81,12 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               variant="outlined"
             />
           </Grid>
-          <Box
-            sx={{ position: "relative", width: "100%", textAlign: "center" }}
-          >
-            <img
-              src="/pngs/courtpositions.png" // Replace with your image path
-              alt="Basketball Court"
-              style={{ maxWidth: "100%", height: "auto" }}
+          <Grid item xs={12}>
+            <CourtPositionSelector
+              imageSrc="/pngs/courtpositions.png" // Replace with your image path
+              onSelectPosition={handlePositionSelect}
             />
-            {/* Position markers */}
-            <Box
-              sx={{
-                position: "absolute",
-                top: "35%", // Adjust position based on your image
-                left: "22%",
-                width: 30,
-                height: 30,
-                border: '5px solid green', // Border style
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-              onClick={() => handlePositionSelect("1")}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                top: "48%", // Adjust position based on your image
-                left: "9%",
-                width: 30,
-                height: 30,
-                border: '5px solid green', // Border style
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-              onClick={() => handlePositionSelect("2")}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                top: "81%", // Adjust position based on your image
-                left: "36%",
-                width: 30,
-                height: 30,
-                border: '5px solid green', // Border style
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-              onClick={() => handlePositionSelect("3")}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                top: "76%", // Adjust position based on your image
-                left: "13%",
-                width: 30,
-                height: 30,
-                border: '5px solid green', // Border style
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-              onClick={() => handlePositionSelect("4")}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                top: "64%", // Adjust position based on your image
-                left: "30%",
-                width: 30,
-                height: 30,
-                border: '5px solid green', // Border style
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-              onClick={() => handlePositionSelect("5")}
-            />
-            {/* Create more boxes for other positions */}
-          </Box>
+          </Grid>
           <Grid item xs={12}>
             <TextField
               label="Score"
