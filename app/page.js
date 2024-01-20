@@ -1,19 +1,31 @@
-'use client'
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { AppBar, Toolbar, Typography, Button, Container, Box, Paper, Grid, Card, CardMedia, CardContent } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import theme from './themes/light'
-import GamesList from './components/GamesList';
-import PlayerList from './components/PlayerList';
-import MatchCreationForm from './components/MatchCreationForm';
-import PlayerCreationForm from './components/PlayerCreationForm';
-import { GamesProvider } from './contexts/GamesContext';
-import { PlayersProvider } from './contexts/PlayersContext';
+import * as React from "react";
+import Link from "next/link";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Container,
+  Box,
+  Paper,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import theme from "./themes/light";
+import GamesList from "./components/GamesList";
+import PlayerList from "./components/PlayerList";
+import MatchCreationForm from "./components/MatchCreationForm";
+import PlayerStatsTable from "./components/PlayerStatsTable";
+import PlayerCreationForm from "./components/PlayerCreationForm";
+import { GamesProvider } from "./contexts/GamesContext";
+import { PlayersProvider } from "./contexts/PlayersContext";
 
 export default function Home() {
-
   return (
     <PlayersProvider>
       <GamesProvider>
@@ -24,16 +36,20 @@ export default function Home() {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                   Budasevo Trouts
                 </Typography>
-                <Button color="inherit" component={Link} href="/">Home</Button>
-                <Button color="inherit" component={Link} href="/statistics">Statistics</Button>
-                <Button color="inherit" component={Link} href="/matches">Matches</Button>
+                <Button color="inherit" component={Link} href="/">
+                  Home
+                </Button>
+                <Button color="inherit" component={Link} href="/statistics">
+                  Statistics
+                </Button>
+                <Button color="inherit" component={Link} href="/matches">
+                  Matches
+                </Button>
               </Toolbar>
             </AppBar>
 
-
             <Container maxWidth="lg" sx={{ mt: 4 }}>
-                
-              <Grid container spacing={3} >
+              <Grid container spacing={3}>
                 <Grid item xs={12} md={12}>
                   <GamesList></GamesList>
                 </Grid>
@@ -56,15 +72,21 @@ export default function Home() {
                   <PlayerCreationForm></PlayerCreationForm>
                 </Grid>
               </Grid>
-              
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={12}>
+                  <PlayerStatsTable />
+                </Grid>
+              </Grid>
+
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                  <Card sx={{ height: '100%' }}>
+                  <Card sx={{ height: "100%" }}>
                     <CardMedia
                       component="img"
-                      sx={{ 
-                        width: '100%', // Full width of the card
-                        height: 300 // Height adjusts to maintain the image's aspect ratio
+                      sx={{
+                        width: "100%", // Full width of the card
+                        height: 300, // Height adjusts to maintain the image's aspect ratio
                       }}
                       image="/jpgs/court.jpg"
                       alt="Basketball Court"
@@ -74,18 +96,19 @@ export default function Home() {
                         Create a Match
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Explore upcoming basketball matches and join the one that fits your schedule.
+                        Explore upcoming basketball matches and join the one
+                        that fits your schedule.
                       </Typography>
                     </CardContent>
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Card sx={{ height: '100%' }}>
+                  <Card sx={{ height: "100%" }}>
                     <CardMedia
                       component="img"
-                      sx={{ 
-                        width: '100%', // Full width of the card
-                        height: 300 // Height adjusts to maintain the image's aspect ratio
+                      sx={{
+                        width: "100%", // Full width of the card
+                        height: 300, // Height adjusts to maintain the image's aspect ratio
                       }}
                       image="/pngs/team.png"
                       alt="Basketball Team"
@@ -95,7 +118,8 @@ export default function Home() {
                         Team Randomizer
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Let us create balanced teams for your next game with our team randomizer.
+                        Let us create balanced teams for your next game with our
+                        team randomizer.
                       </Typography>
                     </CardContent>
                   </Card>
