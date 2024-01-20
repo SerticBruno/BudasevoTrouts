@@ -30,7 +30,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
     team2Score: match.team2Score || 0,
   });
   const { refreshGames } = useContext(GamesContext);
-  const { players } = useContext(PlayersContext);
+  const { refreshPlayers } = useContext(PlayersContext);
 
   const handleChange = (event) => {
     setMatchDetails({
@@ -106,6 +106,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
       onClose();
       onSave();
       refreshGames();
+      refreshPlayers(); // Refresh player stats after match update
     } catch (error) {
       console.error("Error updating match:", error);
     }

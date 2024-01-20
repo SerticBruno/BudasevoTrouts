@@ -1,18 +1,25 @@
 'use client'
 
-import React, { useContext, useState } from 'react';
-import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import React, { useState, useContext, useEffect } from 'react';
+import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, CircularProgress } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlayerEditForm from './PlayerEditForm';
+import PlayerDetails from './PlayerDetails';
 import PlayersContext from '../contexts/PlayersContext';
 
 const PlayersList = () => {
   const { players, fetchPlayers, error } = useContext(PlayersContext);
+
+
   const [editPlayer, setEditPlayer] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [playerToDelete, setPlayerToDelete] = useState(null);
+
+  useEffect(() => {
+    // This will trigger a re-render when players data changes
+  }, [players]);
 
   const handleDeleteClick = (player) => {
     setPlayerToDelete(player);
@@ -26,7 +33,8 @@ const PlayersList = () => {
         if (!response.ok) {
           throw new Error('Error deleting the player');
         }
-        await fetchPlayers(); // Refresh the players list after deletion
+        // await fetchPlayers(); // Refresh the players list after deletion
+        await refreshPlayers();
       } catch (error) {
         console.error('Failed to delete player:', error);
       }
@@ -77,10 +85,7 @@ const PlayersList = () => {
             <Typography variant="h6">{player.name}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Position: {player.position}<br />
-              Score: {player.score}
-            </Typography>
+            <PlayerDetails player={player} />
             <IconButton onClick={() => handleEdit(player)}><EditIcon /></IconButton>
             <IconButton onClick={() => handleDeleteClick(player)}><DeleteIcon /></IconButton>
           </AccordionDetails>

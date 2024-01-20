@@ -1,6 +1,4 @@
-'use client'
-
-// contexts/PlayersContext.js
+// File: contexts/PlayersContext.js
 
 import React, { createContext, useState, useEffect } from 'react';
 
@@ -8,21 +6,31 @@ const PlayersContext = createContext();
 
 export const PlayersProvider = ({ children }) => {
   const [players, setPlayers] = useState([]);
-  const [error, setError] = useState(null); // State to store the error message
+  const [error, setError] = useState(null);
 
   const fetchPlayers = async () => {
     try {
-      const response = await fetch('/api/players');
-      if (!response.ok) {
-        throw new Error('Failed to fetch players');
+      const playersResponse = await fetch('/api/players');
+      const statsResponse = await fetch('/api/player-stats');
+
+      if (!playersResponse.ok || !statsResponse.ok) {
+        throw new Error('Failed to fetch data');
       }
-      const data = await response.json();
-      setPlayers(data);
-      setError(null); // Reset error state on successful fetch
+
+      const playersData = await playersResponse.json();
+      const statsData = await statsResponse.json();
+
+      // Combine players data with their stats
+      const combinedData = playersData.map(player => {
+        const stats = statsData.find(s => s._id === player._id) || {};
+        return { ...player, ...stats };
+      });
+
+      setPlayers(combinedData);
+      setError(null);
     } catch (error) {
-      console.error('Error fetching players:', error);
-      // Handle error
-      setError('Failed to connect to the database. Please try again later.'); // Set a user-friendly error message
+      console.error('Error fetching data:', error);
+      setError('Failed to connect to the database. Please try again later.');
     }
   };
 

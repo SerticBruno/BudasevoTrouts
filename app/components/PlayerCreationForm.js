@@ -1,45 +1,52 @@
-'use client'
+"use client";
 // components/PlayerCreationForm.js
 
-import React, { useState, useContext } from 'react';
-import { TextField, Button, Typography, Box, Paper, Grid } from '@mui/material';
-import PlayersContext from '../contexts/PlayersContext';
+import React, { useState, useContext } from "react";
+import { TextField, Button, Typography, Box, Paper, Grid } from "@mui/material";
+import PlayersContext from "../contexts/PlayersContext";
 
 const PlayerCreationForm = ({ onPlayerCreate }) => {
   const { fetchPlayers } = useContext(PlayersContext); // Using the context
   const [playerDetails, setPlayerDetails] = useState({
-    name: '',
-    position: '',
+    name: "",
+    position: "",
     score: 0,
   });
 
   const handleChange = (event) => {
-    setPlayerDetails({ ...playerDetails, [event.target.name]: event.target.value });
+    setPlayerDetails({
+      ...playerDetails,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handlePositionSelect = (position) => {
+    setPlayerDetails({ ...playerDetails, position });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/players/create', { // Adjust the API endpoint as needed
-        method: 'POST',
+      const response = await fetch("/api/players/create", {
+        // Adjust the API endpoint as needed
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(playerDetails),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create player');
+        throw new Error("Failed to create player");
       }
 
       const data = await response.json();
       // onPlayerCreate(data); // Callback function to handle the newly created player
       await fetchPlayers(); // Re-fetch or update the context after successful creation
-      setPlayerDetails({ name: '', position: '', score: 0 }); // Reset the form
-
+      setPlayerDetails({ name: "", position: "", score: 0 }); // Reset the form
     } catch (error) {
-      console.error('Error creating player:', error);
+      console.error("Error creating player:", error);
       // Handle errors here (e.g., show error message to the user)
     }
   };
@@ -73,6 +80,82 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               variant="outlined"
             />
           </Grid>
+          <Box
+            sx={{ position: "relative", width: "100%", textAlign: "center" }}
+          >
+            <img
+              src="/pngs/courtpositions.png" // Replace with your image path
+              alt="Basketball Court"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+            {/* Position markers */}
+            <Box
+              sx={{
+                position: "absolute",
+                top: "35%", // Adjust position based on your image
+                left: "22%",
+                width: 30,
+                height: 30,
+                border: '5px solid green', // Border style
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+              onClick={() => handlePositionSelect("1")}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: "48%", // Adjust position based on your image
+                left: "9%",
+                width: 30,
+                height: 30,
+                border: '5px solid green', // Border style
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+              onClick={() => handlePositionSelect("2")}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: "81%", // Adjust position based on your image
+                left: "36%",
+                width: 30,
+                height: 30,
+                border: '5px solid green', // Border style
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+              onClick={() => handlePositionSelect("3")}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: "76%", // Adjust position based on your image
+                left: "13%",
+                width: 30,
+                height: 30,
+                border: '5px solid green', // Border style
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+              onClick={() => handlePositionSelect("4")}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: "64%", // Adjust position based on your image
+                left: "30%",
+                width: 30,
+                height: 30,
+                border: '5px solid green', // Border style
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+              onClick={() => handlePositionSelect("5")}
+            />
+            {/* Create more boxes for other positions */}
+          </Box>
           <Grid item xs={12}>
             <TextField
               label="Score"
@@ -85,20 +168,24 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button 
-              type="submit" 
-              variant="contained" 
+          <Grid
+            item
+            xs={12}
+            sx={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            <Button
+              type="submit"
+              variant="contained"
               color="primary"
-              sx={{ 
-                  mt: 2, 
-                  color: 'black', // Dark text color when not hovered
-                  '&:hover': {
-                  color: 'white', // Text color changes to white on hover
+              sx={{
+                mt: 2,
+                color: "black", // Dark text color when not hovered
+                "&:hover": {
+                  color: "white", // Text color changes to white on hover
                   // The background color will automatically change based on the theme's primary color
-                  }}
-              }
-              >
+                },
+              }}
+            >
               Add Player
             </Button>
           </Grid>

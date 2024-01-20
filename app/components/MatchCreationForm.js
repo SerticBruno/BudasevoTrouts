@@ -17,7 +17,7 @@ import PlayerSelection from "./PlayerSelection";
 
 const MatchCreationForm = ({ onMatchCreate }) => {
   const today = new Date().toISOString().split("T")[0];
-  const { players } = useContext(PlayersContext);
+  const { players, refreshPlayers } = useContext(PlayersContext);
   const { refreshGames } = useContext(GamesContext);
   const [matchDetails, setMatchDetails] = useState({
     name: "",
@@ -125,7 +125,8 @@ const MatchCreationForm = ({ onMatchCreate }) => {
 
       const data = await response.json();
       console.log("Match created:", data);
-      await refreshGames();
+      refreshGames();
+      refreshPlayers();
       setMatchDetails({
         name: "",
         date: today,
