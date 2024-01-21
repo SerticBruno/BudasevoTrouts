@@ -165,7 +165,7 @@ const PlayerDetails = ({ player }) => {
         <Box display="flex" alignItems="center">
           <LinearProgress
             variant="determinate"
-            value={winRateProgress}
+            value={Number(winRateProgress)}
             sx={{ flexGrow: 1, mr: 1, height: 10 }} // Custom height
             color="primary" // Change as needed
           />
