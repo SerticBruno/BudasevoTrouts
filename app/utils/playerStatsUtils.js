@@ -66,6 +66,7 @@ export const calculateGamesDraw = (matches, playerIdString) => {
 export const calculateWinRatio = (gamesWon, gamesPlayed) => {
   return ((gamesWon / gamesPlayed) * 100).toFixed(2);
 };
+
 export const calculateMatchAttendance = (gamesPlayed, totalGames) => {
   return ((gamesPlayed / totalGames) * 100).toFixed(2);
 };
@@ -101,38 +102,6 @@ export const getMostCommonOpponentId = (matches, playerIdString) => {
     (a, b) => (opponentCount[a] > opponentCount[b] ? a : b),
     null
   );
-};
-
-export const calculateMostCommonOpponent = (
-  matches,
-  playerIdString,
-  players
-) => {
-  let opponentCount = {};
-
-  matches.forEach((match) => {
-    if (match.team1Score === match.team2Score) return; // Skip if the match is a draw
-
-    let opponentTeam = match.team1
-      .map((id) => id.toString())
-      .includes(playerIdString)
-      ? match.team2
-      : match.team1;
-    opponentTeam.forEach((opponentId) => {
-      let opponentIdStr = opponentId.toString();
-      opponentCount[opponentIdStr] = (opponentCount[opponentIdStr] || 0) + 1;
-    });
-  });
-
-  let mostCommonOpponentId = Object.keys(opponentCount).reduce(
-    (a, b) => (opponentCount[a] > opponentCount[b] ? a : b),
-    null
-  );
-  const mostCommonOpponentName = players.find(
-    (p) => p._id.toString() === mostCommonOpponentId
-  )?.name;
-
-  return mostCommonOpponentName;
 };
 
 export const calculateGamesPlayedAgainsMostCommonOpponent = (
@@ -175,39 +144,6 @@ export const calculateGamesPlayedAgainsMostCommonOpponent = (
     gamesPlayedAgainstMostCommon,
     winsAgainstMostCommon,
     lossesAgainstMostCommon,
-    drawsAgainstMostCommon
+    drawsAgainstMostCommon,
   };
-};
-
-
-export const calculateMostCommonTeammate = (
-  matches,
-  playerIdString,
-  players
-) => {
-  let opponentCount = {};
-
-  matches.forEach((match) => {
-    if (match.team1Score === match.team2Score) return; // Skip if the match is a draw
-
-    let opponentTeam = match.team1
-      .map((id) => id.toString())
-      .includes(playerIdString)
-      ? match.team2
-      : match.team1;
-    opponentTeam.forEach((opponentId) => {
-      let opponentIdStr = opponentId.toString();
-      opponentCount[opponentIdStr] = (opponentCount[opponentIdStr] || 0) + 1;
-    });
-  });
-
-  let mostCommonOpponentId = Object.keys(opponentCount).reduce(
-    (a, b) => (opponentCount[a] > opponentCount[b] ? a : b),
-    null
-  );
-  const mostCommonOpponentName = players.find(
-    (p) => p._id.toString() === mostCommonOpponentId
-  )?.name;
-
-  return mostCommonOpponentName;
 };

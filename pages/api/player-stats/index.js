@@ -6,6 +6,7 @@ import {
   calculateGamesPlayed,
   calculateGamesWon,
   calculateWinRatio,
+  calculateMatchAttendance,
   getMostCommonOpponentName,
   getMostCommonOpponentId,
   calculateGamesPlayedAgainsMostCommonOpponent,
