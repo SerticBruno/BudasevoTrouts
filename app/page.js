@@ -26,119 +26,106 @@ import PlayerStatsTable from "./components/PlayerStatsTable";
 import PlayerCreationForm from "./components/PlayerCreationForm";
 import { GamesProvider } from "./contexts/GamesContext";
 import { PlayersProvider } from "./contexts/PlayersContext";
+import Layout from "./components/Layout";
 
 export default function Home() {
   return (
-    <PlayersProvider>
-      <GamesProvider>
-        <ThemeProvider theme={theme}>
-          <Box>
-            <AppBar position="static" color="primary">
-              <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  Budasevo Trouts
-                </Typography>
-                <Button color="inherit" component={Link} href="/">
-                  Home
-                </Button>
-                <Button color="inherit" component={Link} href="/statistics">
-                  Statistics
-                </Button>
-                <Button color="inherit" component={Link} href="/matches">
-                  Matches
-                </Button>
-              </Toolbar>
-            </AppBar>
+    <Layout>
+      <PlayersProvider>
+        <GamesProvider>
+          <ThemeProvider theme={theme}>
+            <Box>
 
-            <Container sx={{ mt: 4 }}>
-              <CountdownTimer></CountdownTimer>
-            </Container>
-            <Container sx={{ mt: 4 }}>
-              <MatchCountdownTimer></MatchCountdownTimer>
-            </Container>
+              <Container sx={{ mt: 4 }}>
+                <CountdownTimer></CountdownTimer>
+              </Container>
+              <Container sx={{ mt: 4 }}>
+                <MatchCountdownTimer></MatchCountdownTimer>
+              </Container>
 
-            <Container maxWidth="lg" sx={{ mt: 4 }}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={12}>
-                  <GamesList></GamesList>
+              <Container maxWidth="lg" sx={{ mt: 4 }}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <GamesList></GamesList>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={12}>
-                  <MatchCreationForm></MatchCreationForm>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <MatchCreationForm></MatchCreationForm>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={3} sx={{ mt: 4 }}>
-                <Grid item xs={12} md={12}>
-                  <PlayerList></PlayerList>
+                <Grid container spacing={3} sx={{ mt: 4 }}>
+                  <Grid item xs={12} md={12}>
+                    <PlayerList></PlayerList>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={12}>
-                  <PlayerCreationForm></PlayerCreationForm>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <PlayerCreationForm></PlayerCreationForm>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={12}>
-                  <PlayerStatsTable />
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <PlayerStatsTable />
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <Card sx={{ height: "100%" }}>
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        width: "100%", // Full width of the card
-                        height: 300, // Height adjusts to maintain the image's aspect ratio
-                      }}
-                      image="/jpgs/court.jpg"
-                      alt="Basketball Court"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        Create a Match
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Explore upcoming basketball matches and join the one
-                        that fits your schedule.
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <Card sx={{ height: "100%" }}>
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          width: "100%", // Full width of the card
+                          height: 300, // Height adjusts to maintain the image's aspect ratio
+                        }}
+                        image="/jpgs/court.jpg"
+                        alt="Basketball Court"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          Create a Match
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Explore upcoming basketball matches and join the one
+                          that fits your schedule.
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Card sx={{ height: "100%" }}>
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          width: "100%", // Full width of the card
+                          height: 300, // Height adjusts to maintain the image's aspect ratio
+                        }}
+                        image="/pngs/team.png"
+                        alt="Basketball Team"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          Team Randomizer
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Let us create balanced teams for your next game with
+                          our team randomizer.
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  {/* Additional grid items/cards can be added here */}
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <Card sx={{ height: "100%" }}>
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        width: "100%", // Full width of the card
-                        height: 300, // Height adjusts to maintain the image's aspect ratio
-                      }}
-                      image="/pngs/team.png"
-                      alt="Basketball Team"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        Team Randomizer
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Let us create balanced teams for your next game with our
-                        team randomizer.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                {/* Additional grid items/cards can be added here */}
-              </Grid>
-            </Container>
-          </Box>
-        </ThemeProvider>
-      </GamesProvider>
-    </PlayersProvider>
+              </Container>
+            </Box>
+          </ThemeProvider>
+        </GamesProvider>
+      </PlayersProvider>
+    </Layout>
   );
 }

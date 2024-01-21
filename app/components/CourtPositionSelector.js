@@ -9,8 +9,8 @@ const CourtPositionMarker = ({ position, onClick }) => (
       position: "absolute",
       top: `${position.top}%`,
       left: `${position.left}%`,
-      width: 30,
-      height: 30,
+      width: 33,
+      height: 33,
       border: '5px solid green',
       borderRadius: "50%",
       cursor: "pointer",
@@ -22,11 +22,11 @@ const CourtPositionMarker = ({ position, onClick }) => (
 
 const CourtPositionSelector = ({ imageSrc, onSelectPosition }) => {
   const positions = [
-    { top: 39, left: 50, value: "1" },
-    { top: 52, left: 21, value: "2" },
-    { top: 83, left: 77, value: "3" },
+    { top: 38.5, left: 49.5, value: "1" },
+    { top: 51.2, left: 20.6, value: "2" },
+    { top: 83, left: 77.5, value: "3" },
     { top: 80, left: 30, value: "4" },
-    { top: 67, left: 67, value: "5" },
+    { top: 67.7, left: 66.5, value: "5" },
     // Add more positions if needed
   ];
 
