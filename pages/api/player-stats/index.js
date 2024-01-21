@@ -102,9 +102,16 @@ export default async function handler(req, res) {
         });
       });
 
-      const mostCommonTeammateId = Object.keys(teammateFrequency).reduce(
-        (a, b) => (teammateFrequency[a] > teammateFrequency[b] ? a : b)
-      );
+      let mostCommonTeammateId = null;
+      if (Object.keys(teammateFrequency).length > 0) {
+        mostCommonTeammateId = Object.keys(teammateFrequency).reduce((a, b) =>
+          teammateFrequency[a] > teammateFrequency[b] ? a : b
+        );
+      }
+
+      // const mostCommonTeammateId = Object.keys(teammateFrequency).reduce(
+      //   (a, b) => (teammateFrequency[a] > teammateFrequency[b] ? a : b)
+      // );
 
       // Step 2: Calculate Wins, Losses, and Draws With That Teammate
       matches.forEach((match) => {

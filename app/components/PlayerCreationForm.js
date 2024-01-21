@@ -1,7 +1,7 @@
 "use client";
 // components/PlayerCreationForm.js
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { TextField, Button, Typography, Box, Paper, Grid } from "@mui/material";
 import PlayersContext from "../contexts/PlayersContext";
 import CourtPositionSelector from "./CourtPositionSelector";
@@ -13,6 +13,21 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
     position: "",
     score: 0,
   });
+
+  const nameRef = useRef(null);
+  const positionRef = useRef(null);
+  const scoreRef = useRef(null);
+
+  const scrollToError = () => {
+    if (errors.name) {
+      nameRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (errors.position) {
+      positionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (errors.score) {
+      scoreRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
 
   const [errors, setErrors] = useState({ name: "", position: "", score: "" });
 
@@ -34,6 +49,11 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
     }
 
     setErrors(tempErrors);
+
+    if (!isValid) {
+      scrollToError(); // Scroll to the error
+    }
+
     return isValid;
   };
 
@@ -96,6 +116,7 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               fullWidth
               margin="normal"
               variant="outlined"
+              ref={nameRef} // Attach ref here
               error={!!errors.name}
               helperText={errors.name}
             />
@@ -106,6 +127,7 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               name="position"
               value={playerDetails.position}
               onChange={handleChange}
+              ref={positionRef} // Attach ref here
               fullWidth
               margin="normal"
               variant="outlined"
@@ -138,6 +160,7 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               type="submit"
               variant="contained"
               color="primary"
+              ref={scoreRef} // Attach ref here
               fullWidth
               sx={{
                 mt: 2,
