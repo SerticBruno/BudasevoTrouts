@@ -19,6 +19,7 @@ const MatchCreationForm = ({ onMatchCreate }) => {
   const today = new Date().toISOString().split("T")[0];
   const { players, refreshPlayers } = useContext(PlayersContext);
   const { refreshGames } = useContext(GamesContext);
+  const [formError, setFormError] = useState("");
   const [matchDetails, setMatchDetails] = useState({
     name: "",
     date: today,
@@ -101,6 +102,10 @@ const MatchCreationForm = ({ onMatchCreate }) => {
       }
     }
 
+    if (team1.length >= 5 && team2.length >= 5) {
+      setFormError(""); // Clear the error message if the form is valid
+    }
+
     setMatchDetails({
       ...matchDetails,
       team1,
@@ -110,16 +115,24 @@ const MatchCreationForm = ({ onMatchCreate }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const totalPlayers = matchDetails.team1.length + matchDetails.team2.length;
+    const totalPlayers = selectedPlayers.length;
     const minPlayersRequired = 10;
 
+    console.log(totalPlayers);
+
     if (totalPlayers < minPlayersRequired) {
-      alert(
+      setFormError(
         `A minimum of ${minPlayersRequired} players is required to create a match.`
       );
-      return; // Prevent form submission
+      return;
     }
+
+    if (matchDetails.team1.length < 5 || matchDetails.team2.length < 5) {
+      setFormError("Please assign players to both Team 1 and Team 2.");
+      return;
+    }
+
+    setFormError(""); // Clear the error message if the form is valid
 
     try {
       const response = await fetch("/api/matches/create", {
@@ -215,6 +228,12 @@ const MatchCreationForm = ({ onMatchCreate }) => {
             <TeamList team={matchDetails.team2} />
           </Grid>
         </Grid>
+
+        {formError && (
+          <Typography color="error" sx={{ mt: 2 }}>
+            {formError}
+          </Typography>
+        )}
         <Button
           variant="contained"
           color="primary"
