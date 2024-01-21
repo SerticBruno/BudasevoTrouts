@@ -76,6 +76,11 @@ export const getMostCommonOpponentName = (players, mostCommonOpponentId) => {
   return player ? player.name : null; // Return the player's name or null if not found
 };
 
+export const getMostCommonTeammateName = (players, mostCommonTeammateId) => {
+  const player = getPlayerById(players, mostCommonOpponentId);
+  return player ? player.name : null; // Return the player's name or null if not found
+};
+
 export const getPlayerById = (players, playerIdString) => {
   return players.find((p) => p._id.toString() === playerIdString);
 };
@@ -97,10 +102,14 @@ export const getMostCommonOpponentId = (matches, playerIdString) => {
       opponentCount[opponentIdStr] = (opponentCount[opponentIdStr] || 0) + 1;
     });
   });
+  
+  if (Object.keys(opponentCount).length === 0) {
+    // No opponents found
+    return null;
+  }
 
   return Object.keys(opponentCount).reduce(
-    (a, b) => (opponentCount[a] > opponentCount[b] ? a : b),
-    null
+    (a, b) => (opponentCount[a] > opponentCount[b] ? a : b)
   );
 };
 
@@ -146,4 +155,38 @@ export const calculateGamesPlayedAgainsMostCommonOpponent = (
     lossesAgainstMostCommon,
     drawsAgainstMostCommon,
   };
+};
+
+export const getMostCommonTeammateId = (matches, playerIdString) => {
+  const teammateFrequency = {};
+
+  matches.forEach((match) => {
+    const team1Ids = Array.isArray(match.team1)
+      ? match.team1.map((id) => id.toString())
+      : [];
+    const team2Ids = Array.isArray(match.team2)
+      ? match.team2.map((id) => id.toString())
+      : [];
+
+    const playerInTeam1 = team1Ids.includes(playerIdString);
+    const playerInTeam2 = team2Ids.includes(playerIdString);
+
+    // Ensure teammatesIds is always an array
+    const teammatesIds = playerInTeam1
+      ? team1Ids
+      : playerInTeam2
+      ? team2Ids
+      : [];
+
+    teammatesIds.forEach((teammateId) => {
+      if (teammateId !== playerIdString) {
+        teammateFrequency[teammateId] =
+          (teammateFrequency[teammateId] || 0) + 1;
+      }
+    });
+  });
+
+  return Object.keys(teammateFrequency).reduce((a, b) =>
+    teammateFrequency[a] > teammateFrequency[b] ? a : b
+  );
 };
