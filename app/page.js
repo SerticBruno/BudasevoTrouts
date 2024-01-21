@@ -18,6 +18,8 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./themes/light";
 import GamesList from "./components/GamesList";
+import CountdownTimer from "./components/CountdownTimer";
+import MatchCountdownTimer from "./components/MatchCountdownTimer";
 import PlayerList from "./components/PlayerList";
 import MatchCreationForm from "./components/MatchCreationForm";
 import PlayerStatsTable from "./components/PlayerStatsTable";
@@ -47,6 +49,13 @@ export default function Home() {
                 </Button>
               </Toolbar>
             </AppBar>
+
+            <Container sx={{ mt: 4 }}>
+              <CountdownTimer></CountdownTimer>
+            </Container>
+            <Container sx={{ mt: 4 }}>
+              <MatchCountdownTimer></MatchCountdownTimer>
+            </Container>
 
             <Container maxWidth="lg" sx={{ mt: 4 }}>
               <Grid container spacing={3}>
