@@ -1,5 +1,15 @@
 import { connectToDatabase } from "../../../app/lib/mongodb";
 import { ObjectId } from "mongodb"; // Import ObjectId for conversion
+import {
+  calculateGamesDraw,
+  calculateGamesLost,
+  calculateGamesPlayed,
+  calculateGamesWon,
+  calculateWinRatio,
+  getMostCommonOpponentName,
+  getMostCommonOpponentId,
+  calculateGamesPlayedAgainsMostCommonOpponent,
+} from "../../../app/utils/playerStatsUtils";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -15,125 +25,44 @@ export default async function handler(req, res) {
     const playerStats = players.map((player) => {
       const playerIdString = player._id.toString(); // Convert player ObjectId to string
 
-      const gamesPlayed = matches.filter(
-        (match) =>
-          match.team1.map((id) => id.toString()).includes(playerIdString) ||
-          match.team2.map((id) => id.toString()).includes(playerIdString)
-      ).length;
+      const gamesPlayed = calculateGamesPlayed(matches, playerIdString);
+      const gamesWon = calculateGamesWon(matches, playerIdString);
 
-      const gamesWon = matches.filter((match) => {
-        const team1Score = parseInt(match.team1Score, 10);
-        const team2Score = parseInt(match.team2Score, 10);
+      const gamesLost = calculateGamesLost(matches, playerIdString);
 
-        const isPlayerInTeam1 = match.team1
-          .map((id) => id.toString())
-          .includes(playerIdString);
-        const isPlayerInTeam2 = match.team2
-          .map((id) => id.toString())
-          .includes(playerIdString);
+      const gamesDraw = calculateGamesDraw(matches, playerIdString);
 
-        return (
-          (isPlayerInTeam1 && team1Score > team2Score) ||
-          (isPlayerInTeam2 && team2Score > team1Score)
-        );
-      }).length;
-
-      const gamesLost = matches.filter((match) => {
-        const team1Score = parseInt(match.team1Score, 10);
-        const team2Score = parseInt(match.team2Score, 10);
-
-        const isPlayerInTeam1 = match.team1
-          .map((id) => id.toString())
-          .includes(playerIdString);
-        const isPlayerInTeam2 = match.team2
-          .map((id) => id.toString())
-          .includes(playerIdString);
-
-        return (
-          (isPlayerInTeam1 && team1Score < team2Score) ||
-          (isPlayerInTeam2 && team2Score < team1Score)
-        );
-      }).length;
-
-      const gamesDraw = matches.filter((match) => {
-        const team1Score = parseInt(match.team1Score, 10);
-        const team2Score = parseInt(match.team2Score, 10);
-
-        const isPlayerInTeam1 = match.team1
-          .map((id) => id.toString())
-          .includes(playerIdString);
-        const isPlayerInTeam2 = match.team2
-          .map((id) => id.toString())
-          .includes(playerIdString);
-
-        return (
-          (isPlayerInTeam1 && team1Score == team2Score) ||
-          (isPlayerInTeam2 && team2Score == team1Score)
-        );
-      }).length;
-
-      const winRatio = ((gamesWon / gamesPlayed) * 100).toFixed(2);
-      const matchAttendance = ((gamesPlayed / matches.length) * 100).toFixed(2);
-
-      let opponentCount = {}; // Object to keep track of the number of times each opponent is faced
-
-      matches.forEach((match) => {
-        // Skip if the match is a draw
-        if (match.team1Score === match.team2Score) return;
-
-        let opponentTeam = match.team1
-          .map((id) => id.toString())
-          .includes(player._id.toString())
-          ? match.team2
-          : match.team1;
-        opponentTeam.forEach((opponentId) => {
-          let opponentIdStr = opponentId.toString(); // Convert ObjectId to string
-          opponentCount[opponentIdStr] =
-            (opponentCount[opponentIdStr] || 0) + 1;
-        });
-      });
-
-      // Find the most common opponent ID
-      let mostCommonOpponentId = Object.keys(opponentCount).reduce(
-        (a, b) => (opponentCount[a] > opponentCount[b] ? a : b),
-        null
+      const winRatio = calculateWinRatio(gamesWon, gamesPlayed);
+      const matchAttendance = calculateMatchAttendance(
+        gamesPlayed,
+        matches.length
       );
 
-      // Find the most common opponent's name
-      const mostCommonOpponentName = players.find(
-        (p) => p._id.toString() === mostCommonOpponentId
-      )?.name;
+      const mostCommonOpponentId = getMostCommonOpponentId(
+        matches,
+        playerIdString
+      );
 
-      let gamesPlayedAgainstMostCommon = 0;
-      let winsAgainstMostCommon = 0;
-      let lossesAgainstMostCommon = 0;
-      let drawsAgainstMostCommon = 0;
+      const mostCommonOpponentName = getMostCommonOpponentName(
+        players,
+        mostCommonOpponentId
+      );
 
-      matches.forEach((match) => {
-        const team1Ids = match.team1.map((id) => id.toString());
-        const team2Ids = match.team2.map((id) => id.toString());
-        const playerInTeam1 = team1Ids.includes(player._id.toString());
-        const playerInTeam2 = team2Ids.includes(player._id.toString());
-        const opponentId = playerInTeam1 ? team2Ids : team1Ids;
+      const gamesAgainstMostCommonOpponent =
+        calculateGamesPlayedAgainsMostCommonOpponent(
+          matches,
+          playerIdString,
+          mostCommonOpponentId
+        );
 
-        if (opponentId.includes(mostCommonOpponentId)) {
-          gamesPlayedAgainstMostCommon++;
-
-          const team1Score = parseInt(match.team1Score, 10);
-          const team2Score = parseInt(match.team2Score, 10);
-
-          if (team1Score === team2Score) {
-            drawsAgainstMostCommon++;
-          } else if (
-            (playerInTeam1 && team1Score > team2Score) ||
-            (playerInTeam2 && team2Score > team1Score)
-          ) {
-            winsAgainstMostCommon++;
-          } else {
-            lossesAgainstMostCommon++;
-          }
-        }
-      });
+      let gamesPlayedAgainstMostCommon =
+        gamesAgainstMostCommonOpponent.gamesPlayedAgainstMostCommon;
+      let winsAgainstMostCommon =
+        gamesAgainstMostCommonOpponent.winsAgainstMostCommon;
+      let lossesAgainstMostCommon =
+        gamesAgainstMostCommonOpponent.lossesAgainstMostCommon;
+      let drawsAgainstMostCommon =
+        gamesAgainstMostCommonOpponent.drawsAgainstMostCommon;
 
       let gamesPlayedWithMostCommonTeammate = 0;
       let winsWithMostCommonTeammate = 0;
