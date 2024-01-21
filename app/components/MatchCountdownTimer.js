@@ -9,7 +9,7 @@ const MatchCountdownTimer = () => {
   const calculateTimeLeft = () => {
     const now = new Date();
     const nextWednesday = new Date(now);
-    nextWednesday.setUTCHours(20, 0, 0, 0); // Set to 21:00 (9:00 PM) UTC
+    nextWednesday.setUTCHours(20, 0, 0, 0); // Set to 20:00 (9:00 PM) for UTC+1
     const daysUntilNextWednesday = ((7 - now.getUTCDay()) + 3) % 7; // Calculate days until next Wednesday
     nextWednesday.setDate(nextWednesday.getDate() + daysUntilNextWednesday);
 
