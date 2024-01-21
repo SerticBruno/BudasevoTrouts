@@ -9,16 +9,8 @@ import {
   DialogActions,
   Button,
   Typography,
-  Avatar,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  IconButton,
 } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GamesContext from "../contexts/GamesContext";
 import PlayersContext from "../contexts/PlayersContext";
 import TeamList from "./TeamList";
@@ -45,14 +37,6 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
       const newToTeam = [...prevState[toTeam], playerId];
       return { ...prevState, [fromTeam]: newFromTeam, [toTeam]: newToTeam };
     });
-  };
-
-  const determineWinner = () => {
-    const team1Score = parseInt(matchDetails.team1Score, 10);
-    const team2Score = parseInt(matchDetails.team2Score, 10);
-    if (team1Score > team2Score) return "Team 1 Wins";
-    if (team2Score > team1Score) return "Team 2 Wins";
-    return "Draw";
   };
 
   const determineForTeam1 = () => {

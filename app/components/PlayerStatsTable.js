@@ -26,7 +26,7 @@ const PlayerStatsTable = () => {
     fontSize: 16, // smaller icon size
     color: isActive ? "black" : "rgba(0, 0, 0, 0.24)", // active icons are darker
     verticalAlign: "middle", // align with text
-    marginLeft: 4, // spacing from the header text
+    marginright: 4, // spacing from the header text
   });
 
   const handleSort = (criterion) => {
@@ -67,21 +67,27 @@ const PlayerStatsTable = () => {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell align="right">#</TableCell>
               <TableCell
+                align="right"
                 onClick={() => handleSort("name")}
                 sx={{ cursor: "pointer" }}
               >
-                Name
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "name" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "name" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box mr={1}>Name</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "name" && sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "name" && sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
 
               <TableCell
@@ -89,143 +95,173 @@ const PlayerStatsTable = () => {
                 onClick={() => handleSort("gamesWon")}
                 sx={{ cursor: "pointer" }}
               >
-                Won
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesWon" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesWon" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">Won</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "gamesWon" && sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "gamesWon" && sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
-              {/* More headers */}
+
               <TableCell
                 align="right"
                 onClick={() => handleSort("gamesLost")}
                 sx={{ cursor: "pointer" }}
               >
-                Lost
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesLost" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesLost" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">Lost</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "gamesLost" && sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "gamesLost" &&
+                          sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
-              {/* <TableCell align="right" onClick={() => handleSort("gamesDraw")}>
-                Games Draw
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesDraw" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesDraw" && sortDirection === "desc"
-                  )}
-                />
-              </TableCell> */}
+
               <TableCell
                 align="right"
                 onClick={() => handleSort("gamesPlayed")}
                 sx={{ cursor: "pointer" }}
               >
-                Total
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesPlayed" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesPlayed" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">Total</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "gamesPlayed" &&
+                          sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "gamesPlayed" &&
+                          sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
+
               <TableCell
                 align="right"
                 onClick={() => handleSort("longestWinStreak")}
                 sx={{ cursor: "pointer" }}
               >
-                LWS
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "longestWinStreak" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "longestWinStreak" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">LWS</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "longestWinStreak" &&
+                          sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "longestWinStreak" &&
+                          sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
+
               <TableCell
                 align="right"
                 onClick={() => handleSort("longestLoseStreak")}
                 sx={{ cursor: "pointer" }}
               >
-                LLS
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "longestLoseStreak" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "longestLoseStreak" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">LLS</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "longestLoseStreak" &&
+                          sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "longestLoseStreak" &&
+                          sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
+
               <TableCell
                 align="right"
                 onClick={() => handleSort("matchScore")}
                 sx={{ cursor: "pointer" }}
               >
-                Score
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "matchScore" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "matchScore" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">Score</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "matchScore" &&
+                          sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "matchScore" &&
+                          sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
+
               <TableCell
                 align="right"
                 onClick={() => handleSort("winRatio")}
                 sx={{ cursor: "pointer" }}
               >
-                Win Rate
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "winRatio" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "winRatio" && sortDirection === "desc"
-                  )}
-                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Box marginRight="8px">Win Rate</Box>
+                  <Box>
+                    <ArrowUpwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "winRatio" && sortDirection === "asc"
+                      )}
+                    />
+                    <ArrowDownwardIcon
+                      style={sortIconStyle(
+                        sortCriterion === "winRatio" && sortDirection === "desc"
+                      )}
+                    />
+                  </Box>
+                </Box>
               </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {sortedPlayers.map((player) => (
+            {sortedPlayers.map((player, index) => (
               <TableRow key={player._id}>
-                <TableCell component="th" scope="row">
-                  {player.name}
+                <TableCell component="th" scope="row" align="right">
+                  {index + 1}.
                 </TableCell>
+                <TableCell align="right">{player.name}</TableCell>
                 <TableCell align="right">{player.gamesWon}</TableCell>
                 <TableCell align="right">{player.gamesLost}</TableCell>
                 {/* <TableCell align="right">{player.gamesDraw}</TableCell> */}
