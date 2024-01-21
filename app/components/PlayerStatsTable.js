@@ -89,7 +89,7 @@ const PlayerStatsTable = () => {
                 onClick={() => handleSort("gamesWon")}
                 sx={{ cursor: "pointer" }}
               >
-                Games Won
+                Won
                 <ArrowUpwardIcon
                   style={sortIconStyle(
                     sortCriterion === "gamesWon" && sortDirection === "asc"
@@ -107,7 +107,7 @@ const PlayerStatsTable = () => {
                 onClick={() => handleSort("gamesLost")}
                 sx={{ cursor: "pointer" }}
               >
-                Games Lost
+                Lost
                 <ArrowUpwardIcon
                   style={sortIconStyle(
                     sortCriterion === "gamesLost" && sortDirection === "asc"
@@ -137,7 +137,7 @@ const PlayerStatsTable = () => {
                 onClick={() => handleSort("gamesPlayed")}
                 sx={{ cursor: "pointer" }}
               >
-                Matches Played
+                Total
                 <ArrowUpwardIcon
                   style={sortIconStyle(
                     sortCriterion === "gamesPlayed" && sortDirection === "asc"
@@ -146,6 +146,40 @@ const PlayerStatsTable = () => {
                 <ArrowDownwardIcon
                   style={sortIconStyle(
                     sortCriterion === "gamesPlayed" && sortDirection === "desc"
+                  )}
+                />
+              </TableCell>
+              <TableCell
+                align="right"
+                onClick={() => handleSort("longestWinStreak")}
+                sx={{ cursor: "pointer" }}
+              >
+                LWS
+                <ArrowUpwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "longestWinStreak" && sortDirection === "asc"
+                  )}
+                />
+                <ArrowDownwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "longestWinStreak" && sortDirection === "desc"
+                  )}
+                />
+              </TableCell>
+              <TableCell
+                align="right"
+                onClick={() => handleSort("longestLoseStreak")}
+                sx={{ cursor: "pointer" }}
+              >
+                LLS
+                <ArrowUpwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "longestLoseStreak" && sortDirection === "asc"
+                  )}
+                />
+                <ArrowDownwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "longestLoseStreak" && sortDirection === "desc"
                   )}
                 />
               </TableCell>
@@ -196,6 +230,8 @@ const PlayerStatsTable = () => {
                 <TableCell align="right">{player.gamesLost}</TableCell>
                 {/* <TableCell align="right">{player.gamesDraw}</TableCell> */}
                 <TableCell align="right">{player.gamesPlayed}</TableCell>
+                <TableCell align="right">{player.longestWinStreak}</TableCell>
+                <TableCell align="right">{player.longestLoseStreak}</TableCell>
                 <TableCell align="right">{player.matchScore}</TableCell>
                 <TableCell align="right">{player.winRatio}%</TableCell>
               </TableRow>
