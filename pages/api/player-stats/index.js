@@ -296,9 +296,41 @@ export default async function handler(req, res) {
       const teammateWithMostLossesDrawsCount =
         teammateDrawCount[teammateWithMostLossesId] || 0;
 
+      let matchScore = gamesWon * 12 + gamesLost * 3 + gamesDraw * 6;
+
+      let currentStreak = 0;
+      let bonusPoints = 0;
+      const pointsPerStreak = 2; // Bonus points for each streak of 3 or more wins
+      const winStreakThreshold = 2; // Streak length to start earning bonus points
+
+      matches.forEach((match) => {
+        const team1Ids = match.team1.map((id) => id.toString());
+        const team2Ids = match.team2.map((id) => id.toString());
+        const playerInTeam1 = team1Ids.includes(playerIdString);
+        const playerInTeam2 = team2Ids.includes(playerIdString);
+
+        const team1Score = parseInt(match.team1Score, 10);
+        const team2Score = parseInt(match.team2Score, 10);
+
+        const playerTeamWon =
+          (playerInTeam1 && team1Score > team2Score) ||
+          (playerInTeam2 && team2Score > team1Score);
+
+        if (playerTeamWon) {
+          currentStreak++;
+          if (currentStreak >= winStreakThreshold) {
+            bonusPoints += pointsPerStreak;
+          }
+        } else {
+          currentStreak = 0;
+        }
+      });
+
+      matchScore += bonusPoints;
 
       return {
         ...player,
+        matchScore,
         gamesPlayed,
         gamesWon,
         gamesLost,

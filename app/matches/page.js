@@ -34,7 +34,6 @@ const MatchesPage = () => {
       }
 
       const data = await response.json();
-      console.log('Match created:', data);
       // Handle success (e.g., reset form, display success message)
     } catch (error) {
       console.error('Failed to create match:', error);

@@ -6,10 +6,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TeamList from './TeamList';
 
 const GameAccordion = ({ game, onEdit, onDelete }) => {
+  const formatDate = (dateString) => {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+  
+    return `${day} ${months[monthIndex]}, ${year}`;
+  };
+  
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6">{game.name} - {game.team1Score ? game.team1Score : 0} : {game.team2Score ? game.team2Score : 0}</Typography>
+        <Typography variant="h6">{game.name ? game.name + "  -" : formatDate(game.date) + " -" } {game.team1Score ? game.team1Score : 0} : {game.team2Score ? game.team2Score : 0}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Grid container spacing={2}>

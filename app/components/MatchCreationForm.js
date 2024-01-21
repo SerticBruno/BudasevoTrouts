@@ -110,6 +110,17 @@ const MatchCreationForm = ({ onMatchCreate }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const totalPlayers = matchDetails.team1.length + matchDetails.team2.length;
+    const minPlayersRequired = 10;
+
+    if (totalPlayers < minPlayersRequired) {
+      alert(
+        `A minimum of ${minPlayersRequired} players is required to create a match.`
+      );
+      return; // Prevent form submission
+    }
+
     try {
       const response = await fetch("/api/matches/create", {
         method: "POST",
@@ -124,7 +135,6 @@ const MatchCreationForm = ({ onMatchCreate }) => {
       }
 
       const data = await response.json();
-      console.log("Match created:", data);
       refreshGames();
       refreshPlayers();
       setMatchDetails({

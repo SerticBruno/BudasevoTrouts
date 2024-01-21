@@ -67,7 +67,10 @@ const PlayerStatsTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell onClick={() => handleSort("name")}>
+              <TableCell
+                onClick={() => handleSort("name")}
+                sx={{ cursor: "pointer" }}
+              >
                 Name
                 <ArrowUpwardIcon
                   style={sortIconStyle(
@@ -83,21 +86,9 @@ const PlayerStatsTable = () => {
 
               <TableCell
                 align="right"
-                onClick={() => handleSort("gamesPlayed")}
+                onClick={() => handleSort("gamesWon")}
+                sx={{ cursor: "pointer" }}
               >
-                Matches Played
-                <ArrowUpwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesPlayed" && sortDirection === "asc"
-                  )}
-                />
-                <ArrowDownwardIcon
-                  style={sortIconStyle(
-                    sortCriterion === "gamesPlayed" && sortDirection === "desc"
-                  )}
-                />
-              </TableCell>
-              <TableCell align="right" onClick={() => handleSort("gamesWon")}>
                 Games Won
                 <ArrowUpwardIcon
                   style={sortIconStyle(
@@ -111,7 +102,11 @@ const PlayerStatsTable = () => {
                 />
               </TableCell>
               {/* More headers */}
-              <TableCell align="right" onClick={() => handleSort("gamesLost")}>
+              <TableCell
+                align="right"
+                onClick={() => handleSort("gamesLost")}
+                sx={{ cursor: "pointer" }}
+              >
                 Games Lost
                 <ArrowUpwardIcon
                   style={sortIconStyle(
@@ -124,7 +119,7 @@ const PlayerStatsTable = () => {
                   )}
                 />
               </TableCell>
-              <TableCell align="right" onClick={() => handleSort("gamesDraw")}>
+              {/* <TableCell align="right" onClick={() => handleSort("gamesDraw")}>
                 Games Draw
                 <ArrowUpwardIcon
                   style={sortIconStyle(
@@ -136,8 +131,46 @@ const PlayerStatsTable = () => {
                     sortCriterion === "gamesDraw" && sortDirection === "desc"
                   )}
                 />
+              </TableCell> */}
+              <TableCell
+                align="right"
+                onClick={() => handleSort("gamesPlayed")}
+                sx={{ cursor: "pointer" }}
+              >
+                Matches Played
+                <ArrowUpwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "gamesPlayed" && sortDirection === "asc"
+                  )}
+                />
+                <ArrowDownwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "gamesPlayed" && sortDirection === "desc"
+                  )}
+                />
               </TableCell>
-              <TableCell align="right" onClick={() => handleSort("winRatio")}>
+              <TableCell
+                align="right"
+                onClick={() => handleSort("matchScore")}
+                sx={{ cursor: "pointer" }}
+              >
+                Score
+                <ArrowUpwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "matchScore" && sortDirection === "asc"
+                  )}
+                />
+                <ArrowDownwardIcon
+                  style={sortIconStyle(
+                    sortCriterion === "matchScore" && sortDirection === "desc"
+                  )}
+                />
+              </TableCell>
+              <TableCell
+                align="right"
+                onClick={() => handleSort("winRatio")}
+                sx={{ cursor: "pointer" }}
+              >
                 Win Rate
                 <ArrowUpwardIcon
                   style={sortIconStyle(
@@ -159,12 +192,11 @@ const PlayerStatsTable = () => {
                 <TableCell component="th" scope="row">
                   {player.name}
                 </TableCell>
-                <TableCell align="right">{player.gamesPlayed}</TableCell>
                 <TableCell align="right">{player.gamesWon}</TableCell>
                 <TableCell align="right">{player.gamesLost}</TableCell>
-                <TableCell align="right">{player.gamesDraw}</TableCell>
-                {/* Add more TableCell for other data */}
-
+                {/* <TableCell align="right">{player.gamesDraw}</TableCell> */}
+                <TableCell align="right">{player.gamesPlayed}</TableCell>
+                <TableCell align="right">{player.matchScore}</TableCell>
                 <TableCell align="right">{player.winRatio}%</TableCell>
               </TableRow>
             ))}

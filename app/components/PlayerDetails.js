@@ -144,10 +144,6 @@ const PlayerDetails = ({ player }) => {
     ],
   };
 
-  console.log(player.teammateWithMostLossesWinsCount);
-  console.log(player.teammateWithMostLossesCount);
-  console.log(player.teammateWithMostLossesDrawsCount);
-
   const chartOptions = {
     maintainAspectRatio: true,
     aspectRatio: 2,
