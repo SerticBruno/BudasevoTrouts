@@ -37,6 +37,14 @@ const MatchCreationForm = ({ onMatchCreate }) => {
       [event.target.name]: event.target.value,
     });
   };
+  
+  const movePlayerToTeam = (playerId, fromTeam, toTeam) => {
+    setMatchDetails((prevState) => {
+      const newFromTeam = prevState[fromTeam].filter((id) => id !== playerId);
+      const newToTeam = [...prevState[toTeam], playerId];
+      return { ...prevState, [fromTeam]: newFromTeam, [toTeam]: newToTeam };
+    });
+  };
 
   const assignTeamsBalanced = () => {
     let playersByPosition = { 1: [], 2: [], 3: [], 4: [], 5: [] };
@@ -221,11 +229,19 @@ const MatchCreationForm = ({ onMatchCreate }) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="h6">Team 1 Players</Typography>
-            <TeamList team={matchDetails.team1} />
+              <TeamList 
+                team={matchDetails.team1} 
+                onMovePlayer={(playerId) => movePlayerToTeam(playerId, 'team1', 'team2')} 
+                direction="right" 
+              />
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="h6">Team 2 Players</Typography>
-            <TeamList team={matchDetails.team2} />
+              <TeamList 
+                team={matchDetails.team2} 
+                onMovePlayer={(playerId) => movePlayerToTeam(playerId, 'team2', 'team1')} 
+                direction="left" 
+              />
           </Grid>
         </Grid>
 

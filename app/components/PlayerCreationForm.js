@@ -14,19 +14,47 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
     score: 0,
   });
 
+  const [errors, setErrors] = useState({ name: "", position: "", score: "" });
+
+  const validateForm = () => {
+    let tempErrors = { name: "", position: "", score: "" };
+    let isValid = true;
+
+    if (!playerDetails.name) {
+      tempErrors.name = "Player name is required";
+      isValid = false;
+    }
+    if (!playerDetails.position) {
+      tempErrors.position = "Position is required";
+      isValid = false;
+    }
+    if (playerDetails.score === 0) {
+      tempErrors.score = "Score cannot be zero";
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
   const handleChange = (event) => {
     setPlayerDetails({
       ...playerDetails,
       [event.target.name]: event.target.value,
     });
+    // Clear errors when user starts typing
+    setErrors({ ...errors, [event.target.name]: "" });
   };
 
   const handlePositionSelect = (position) => {
     setPlayerDetails({ ...playerDetails, position });
+    setErrors({ ...errors, position: "" }); // Clear position error
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) return; // Stop the form submission if validation fails
 
     try {
       const response = await fetch("/api/players/create", {
@@ -58,7 +86,7 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
         Add Player
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
               label="Player Name"
@@ -68,6 +96,8 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               fullWidth
               margin="normal"
               variant="outlined"
+              error={!!errors.name}
+              helperText={errors.name}
             />
           </Grid>
           <Grid item xs={12}>
@@ -79,11 +109,13 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               fullWidth
               margin="normal"
               variant="outlined"
+              error={!!errors.position}
+              helperText={errors.position}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} >
             <CourtPositionSelector
-              imageSrc="/pngs/courtpositions.png" // Replace with your image path
+              imageSrc="/pngs/courtpositions.png"
               onSelectPosition={handlePositionSelect}
             />
           </Grid>
@@ -97,23 +129,25 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               fullWidth
               margin="normal"
               variant="outlined"
+              error={!!errors.score}
+              helperText={errors.score}
             />
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{ display: "flex", justifyContent: "flex-end" }}
-          >
-            <Button
+          <Grid item xs={12}>
+          <Button
               type="submit"
               variant="contained"
               color="primary"
+              fullWidth
               sx={{
                 mt: 2,
-                color: "black", // Dark text color when not hovered
-                "&:hover": {
-                  color: "white", // Text color changes to white on hover
-                  // The background color will automatically change based on the theme's primary color
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                backgroundColor: 'primary', // Adjust color as needed
+                color: 'black', // Ensuring text is white for contrast
+                '&:hover': {
+                  backgroundColor: 'primary', // Darker on hover
                 },
               }}
             >
