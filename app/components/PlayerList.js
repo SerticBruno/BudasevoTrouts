@@ -1,22 +1,37 @@
-'use client'
+"use client";
 
-import React, { useState, useContext, useEffect } from 'react';
-import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, CircularProgress } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PlayerEditForm from './PlayerEditForm';
-import PlayerDetails from './PlayerDetails';
-import PlayersContext from '../contexts/PlayersContext';
+import React, { useState, useContext, useEffect } from "react";
+import {
+  Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  CircularProgress,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PlayerEditForm from "./PlayerEditForm";
+import PlayerDetails from "./PlayerDetails";
+import PlayersContext from "../contexts/PlayersContext";
 import PlayerCreationForm from "../components/PlayerCreationForm";
 
 const PlayersList = () => {
   const { players, fetchPlayers, error } = useContext(PlayersContext);
 
-
   const [editPlayer, setEditPlayer] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [playerToDelete, setPlayerToDelete] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // This will trigger a re-render when players data changes
@@ -27,17 +42,26 @@ const PlayersList = () => {
     setOpenDialog(true);
   };
 
+  useEffect(() => {
+    // Simulate loading for a few seconds (replace with your actual data fetching logic)
+    setTimeout(() => {
+      setIsLoading(false); // Set loading to false after data fetching is complete
+    }, 2000); // Adjust the duration as needed
+  }, []);
+
   const handleDelete = async () => {
     if (playerToDelete) {
       try {
-        const response = await fetch(`/api/players/${playerToDelete._id}`, { method: 'DELETE' });
+        const response = await fetch(`/api/players/${playerToDelete._id}`, {
+          method: "DELETE",
+        });
         if (!response.ok) {
-          throw new Error('Error deleting the player');
+          throw new Error("Error deleting the player");
         }
         // await fetchPlayers(); // Refresh the players list after deletion
         await refreshPlayers();
       } catch (error) {
-        console.error('Failed to delete player:', error);
+        console.error("Failed to delete player:", error);
       }
       setOpenDialog(false);
       setPlayerToDelete(null);
@@ -60,42 +84,59 @@ const PlayersList = () => {
     const { _id, ...updateData } = updatedPlayer;
     try {
       const response = await fetch(`/api/players/${_id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updateData),
       });
       if (!response.ok) {
-        throw new Error('Failed to update player');
+        throw new Error("Failed to update player");
       }
       await fetchPlayers(); // Refresh the players list after update
       handleCloseEditDialog();
     } catch (error) {
-      console.error('Error updating player:', error);
+      console.error("Error updating player:", error);
     }
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>Players</Typography>
+    <Box sx={{ width: "100%" }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Players
+      </Typography>
       <PlayerCreationForm></PlayerCreationForm>
       {error && <Typography color="error">{error}</Typography>}
-      {players.map((player, index) => (
-        <Accordion key={index}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{player.name}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <PlayerDetails player={player} />
-            <IconButton onClick={() => handleEdit(player)}><EditIcon /></IconButton>
-            <IconButton onClick={() => handleDeleteClick(player)}><DeleteIcon /></IconButton>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+      {isLoading ? (
+        <Box>
+          <CircularProgress />
+        </Box>
+      ) : (
+        players.map((player, index) => (
+          <Accordion key={index}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">{player.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <PlayerDetails player={player} />
+              <IconButton onClick={() => handleEdit(player)}>
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => handleDeleteClick(player)}>
+                <DeleteIcon />
+              </IconButton>
+            </AccordionDetails>
+          </Accordion>
+        ))
+      )}
 
       {/* Confirmation Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
         <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -104,11 +145,20 @@ const PlayersList = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleDelete} autoFocus>Delete</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
 
-      {editPlayer && <PlayerEditForm player={editPlayer} open={!!editPlayer} onClose={handleCloseEditDialog} onSave={handleSavePlayer} />}
+      {editPlayer && (
+        <PlayerEditForm
+          player={editPlayer}
+          open={!!editPlayer}
+          onClose={handleCloseEditDialog}
+          onSave={handleSavePlayer}
+        />
+      )}
     </Box>
   );
 };

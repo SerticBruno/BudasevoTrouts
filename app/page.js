@@ -49,12 +49,6 @@ export default function Home() {
                   </Grid>
                 </Grid>
 
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
-                    <MatchCreationForm></MatchCreationForm>
-                  </Grid>
-                </Grid>
-
                 <Grid container spacing={3} sx={{ mt: 4 }}>
                   <Grid item xs={12} md={12}>
                     <PlayerList></PlayerList>
@@ -67,7 +61,7 @@ export default function Home() {
                   </Grid>
                 </Grid>
 
-                <Grid container spacing={3}>
+                <Grid container spacing={3} mb={3}>
                   <Grid item xs={12} md={6}>
                     <Card sx={{ height: "100%" }}>
                       <CardMedia

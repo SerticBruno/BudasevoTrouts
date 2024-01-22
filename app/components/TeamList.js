@@ -7,12 +7,17 @@ import PlayersContext from "../contexts/PlayersContext";
 const TeamList = ({ team, onMovePlayer, direction }) => {
   const { players } = useContext(PlayersContext);
 
+  // Define custom CSS style for ListItem to adjust padding
+  const listItemStyle = {
+    marginBottom: '8px', // Adjust this value to control the padding between players
+  };
+
   return (
     <List>
       {team.map((playerId) => {
         const player = players.find((p) => p._id === playerId);
         return (
-          <ListItem key={playerId}>
+          <ListItem key={playerId} style={listItemStyle}>
             <Box display="flex" alignItems="center" width="100%">
               {direction === 'left' && (
                 <IconButton onClick={() => onMovePlayer(playerId)}>

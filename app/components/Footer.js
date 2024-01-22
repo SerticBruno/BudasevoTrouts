@@ -13,15 +13,15 @@ const Footer = () => {
       sx={{
         py: 3,
         px: 2,
-        mt: 3,
+        mt: 'auto',
         backgroundColor: (theme) =>
           theme.palette.mode === 'dark'
             ? theme.palette.grey[200]
             : theme.palette.grey[800],
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4}>
+      <Container maxWidth="lg" >
+        <Grid container spacing={4} >
           {/* Add more grid items for additional sections */}
         </Grid>
         <Box mt={5}>

@@ -60,7 +60,7 @@ const PlayerStatsTable = () => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3 }}>
+      <Typography variant="h4" sx={{ mb: 3, mt: 3 }}>
         Player Statistics
       </Typography>
       <Paper sx={{ width: "100%", overflowX: "auto", mb: 2 }}>

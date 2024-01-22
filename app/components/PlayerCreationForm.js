@@ -56,12 +56,12 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
     }
 
     if (playerDetails.position < 1 || playerDetails.position > 5) {
-      tempErrors.position = "Player position must be between 1 and 5"; 
+      tempErrors.position = "Player position must be between 1 and 5";
       isValid = false;
     }
 
     if (playerDetails.score < 1 || playerDetails.score > 10) {
-      tempErrors.score = "Score must be between 1 and 10"; 
+      tempErrors.score = "Score must be between 1 and 10";
       isValid = false;
     }
 
@@ -154,6 +154,8 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
               display: "flex",
               flexDirection: "column",
               gap: 2,
+              maxHeight: "80vh", // Add a maximum height to allow scrolling
+              overflowY: "auto", // Enable vertical scrolling if the content exceeds the maximum height
             }}
           >
             <Box component="form" onSubmit={handleSubmit} noValidate>
