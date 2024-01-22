@@ -112,7 +112,6 @@ export default function Home() {
                       </CardContent>
                     </Card>
                   </Grid>
-                  {/* Additional grid items/cards can be added here */}
                 </Grid>
               </Container>
             </Box>
