@@ -78,7 +78,7 @@ const Navbar = (props) => {
                 color="inherit"
                 startIcon={<BarChartIcon />}
                 component={Link}
-                href="/statistics"
+                href="/"
               >
                 Statistics
               </Button>
@@ -86,7 +86,7 @@ const Navbar = (props) => {
                 color="inherit"
                 startIcon={<GamesIcon />}
                 component={Link}
-                href="/matches"
+                href="/"
               >
                 Matches
               </Button>
@@ -121,14 +121,14 @@ const Navbar = (props) => {
                 <MenuItem
                   onClick={handleClose}
                   component={Link}
-                  href="/statistics"
+                  href="/"
                 >
                   Statistics
                 </MenuItem>
                 <MenuItem
                   onClick={handleClose}
                   component={Link}
-                  href="/matches"
+                  href="/"
                 >
                   Matches
                 </MenuItem>
