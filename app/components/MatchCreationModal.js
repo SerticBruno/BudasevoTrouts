@@ -20,7 +20,7 @@ import PlayerSelection from "./PlayerSelection";
 
 const MatchCreationModal = ({ open, onClose }) => {
   const today = new Date().toISOString().split("T")[0];
-  const { players, refreshPlayers } = useContext(PlayersContext);
+  const { players, fetchPlayers } = useContext(PlayersContext);
   const { refreshGames } = useContext(GamesContext);
   const [formError, setFormError] = useState("");
   const [matchDetails, setMatchDetails] = useState({
@@ -160,7 +160,7 @@ const MatchCreationModal = ({ open, onClose }) => {
 
       const data = await response.json();
       refreshGames();
-      refreshPlayers();
+      fetchPlayers();
       setMatchDetails({
         name: "",
         date: today,
@@ -258,6 +258,7 @@ const MatchCreationModal = ({ open, onClose }) => {
                     movePlayerToTeam(playerId, "team1", "team2")
                   }
                   direction="right"
+                  isFirst="1"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -268,6 +269,7 @@ const MatchCreationModal = ({ open, onClose }) => {
                     movePlayerToTeam(playerId, "team2", "team1")
                   }
                   direction="left"
+                  isFirst="2"
                 />
               </Grid>
             </Grid>

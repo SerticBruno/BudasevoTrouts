@@ -34,7 +34,6 @@ export default function Home() {
         <GamesProvider>
           <ThemeProvider theme={theme}>
             <Box>
-
               <Container sx={{ mt: 4 }}>
                 <CountdownTimer></CountdownTimer>
               </Container>
@@ -62,7 +61,7 @@ export default function Home() {
                 </Grid>
 
                 <Grid container spacing={3} mb={3}>
-                  <Grid item xs={12} md={6}>
+                  {/* <Grid item xs={12} md={6}>
                     <Card sx={{ height: "100%" }}>
                       <CardMedia
                         component="img"
@@ -83,7 +82,7 @@ export default function Home() {
                         </Typography>
                       </CardContent>
                     </Card>
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12} md={6}>
                     <Card sx={{ height: "100%" }}>
                       <CardMedia
@@ -97,11 +96,7 @@ export default function Home() {
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                          Team Randomizer
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Let us create balanced teams for your next game with
-                          our team randomizer.
+                          Team Rando
                         </Typography>
                       </CardContent>
                     </Card>

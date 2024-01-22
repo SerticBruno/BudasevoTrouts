@@ -91,19 +91,33 @@ const GameAccordion = ({ game, onEdit, onDelete }) => {
             <Typography>Location: {game.location}</Typography>
             <Typography>Status: {game.status}</Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography variant="h6" style={{ margin: "10px 0" }}>
               {determineForTeam1()}
             </Typography>
             <Typography variant="subtitle1">Team 1:</Typography>
-            <TeamList team={game.team1} />
+            <TeamList
+              team={game.team1}
+              onMovePlayer={(playerId) =>
+                movePlayerToTeam(playerId, "team1", "team2")
+              }
+              direction="right"
+              isFirst="1"
+            />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography variant="h6" style={{ margin: "10px 0" }}>
               {determineForTeam2()}
             </Typography>
             <Typography variant="subtitle1">Team 2:</Typography>
-            <TeamList team={game.team2} />
+            <TeamList
+              team={game.team1}
+              onMovePlayer={(playerId) =>
+                movePlayerToTeam(playerId, "team1", "team2")
+              }
+              direction="right"
+              isFirst="2"
+            />
           </Grid>
         </Grid>
         <Divider sx={{ mt: 2, mb: 2 }} />

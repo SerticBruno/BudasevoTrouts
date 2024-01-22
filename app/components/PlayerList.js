@@ -46,7 +46,7 @@ const PlayersList = () => {
     // Simulate loading for a few seconds (replace with your actual data fetching logic)
     setTimeout(() => {
       setIsLoading(false); // Set loading to false after data fetching is complete
-    }, 1000); // Adjust the duration as needed
+    }, 1500); // Adjust the duration as needed
   }, []);
 
   const handleDelete = async () => {
@@ -59,7 +59,7 @@ const PlayersList = () => {
           throw new Error("Error deleting the player");
         }
         // await fetchPlayers(); // Refresh the players list after deletion
-        await refreshPlayers();
+        await fetchPlayers();
       } catch (error) {
         console.error("Failed to delete player:", error);
       }
@@ -93,7 +93,7 @@ const PlayersList = () => {
       if (!response.ok) {
         throw new Error("Failed to update player");
       }
-      await fetchPlayers(); // Refresh the players list after update
+      await refreshPlayers(); // Refresh the players list after update
       handleCloseEditDialog();
     } catch (error) {
       console.error("Error updating player:", error);
