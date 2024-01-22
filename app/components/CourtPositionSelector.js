@@ -50,7 +50,7 @@ const CourtPositionSelector = ({ imageSrc, onSelectPosition }) => {
       position: "relative", 
       display: 'flex', 
       justifyContent: 'center',
-      width: "40%", // Adjust the width as needed
+      width: "80%", // Adjust the width as needed
       mt: 2, mb: 2
     }}>
       <Box sx={{ position: "relative", width: "100%" }}>

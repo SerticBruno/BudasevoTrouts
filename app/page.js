@@ -23,7 +23,6 @@ import MatchCountdownTimer from "./components/MatchCountdownTimer";
 import PlayerList from "./components/PlayerList";
 import MatchCreationForm from "./components/MatchCreationForm";
 import PlayerStatsTable from "./components/PlayerStatsTable";
-import PlayerCreationForm from "./components/PlayerCreationForm";
 import { GamesProvider } from "./contexts/GamesContext";
 import { PlayersProvider } from "./contexts/PlayersContext";
 import Layout from "./components/Layout";
@@ -59,12 +58,6 @@ export default function Home() {
                 <Grid container spacing={3} sx={{ mt: 4 }}>
                   <Grid item xs={12} md={12}>
                     <PlayerList></PlayerList>
-                  </Grid>
-                </Grid>
-
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
-                    <PlayerCreationForm></PlayerCreationForm>
                   </Grid>
                 </Grid>
 

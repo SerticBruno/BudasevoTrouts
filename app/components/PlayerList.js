@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PlayerEditForm from './PlayerEditForm';
 import PlayerDetails from './PlayerDetails';
 import PlayersContext from '../contexts/PlayersContext';
+import PlayerCreationForm from "../components/PlayerCreationForm";
 
 const PlayersList = () => {
   const { players, fetchPlayers, error } = useContext(PlayersContext);
@@ -78,6 +79,7 @@ const PlayersList = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Typography variant="h4" sx={{ mb: 3 }}>Players</Typography>
+      <PlayerCreationForm></PlayerCreationForm>
       {error && <Typography color="error">{error}</Typography>}
       {players.map((player, index) => (
         <Accordion key={index}>
