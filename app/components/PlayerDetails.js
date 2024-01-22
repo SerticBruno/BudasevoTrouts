@@ -37,7 +37,7 @@ const PlayerDetails = ({ player }) => {
   const pieColors = [
     theme.palette.success.main,
     theme.palette.error.main,
-    theme.palette.info.main,
+    theme.palette.primary.main,
   ];
 
   const pieData = {
@@ -63,7 +63,7 @@ const PlayerDetails = ({ player }) => {
           player.drawsAgainstMostCommon,
         ],
         backgroundColor: [
-          theme.palette.primary.main,
+          theme.palette.info.main,
           theme.palette.success.main,
           theme.palette.error.main,
           theme.palette.info.main,
@@ -108,15 +108,17 @@ const PlayerDetails = ({ player }) => {
       {
         label: `Results with ${player.teammateWithMostWinsName}`,
         data: [
-          player.teammateWithMostWinsCount + player.teammateWithMostWinsLossesCount + player.drawsWithTeammateWithMostWins,
+          player.teammateWithMostWinsCount +
+            player.teammateWithMostWinsLossesCount +
+            player.drawsWithTeammateWithMostWins,
           player.teammateWithMostWinsCount,
           player.teammateWithMostWinsLossesCount,
           player.drawsWithTeammateWithMostWins,
         ],
         backgroundColor: [
-          theme.palette.primary.main,
-          theme.palette.success.main,
           theme.palette.info.main,
+          theme.palette.success.main,
+          theme.palette.error.main,
           theme.palette.warning.main,
         ],
       },
@@ -128,14 +130,16 @@ const PlayerDetails = ({ player }) => {
     datasets: [
       {
         label: `Results with ${player.teammateWithMostLossesName}`,
-        data: [ 
-          player.teammateWithMostLossesWinsCount + player.teammateWithMostLossesCount + player.teammateWithMostLossesDrawsCount,
+        data: [
+          player.teammateWithMostLossesWinsCount +
+            player.teammateWithMostLossesCount +
+            player.teammateWithMostLossesDrawsCount,
           player.teammateWithMostLossesWinsCount,
           player.teammateWithMostLossesCount,
           player.teammateWithMostLossesDrawsCount,
         ],
         backgroundColor: [
-          theme.palette.primary.main,
+          theme.palette.info.main,
           theme.palette.success.main,
           theme.palette.error.main,
           theme.palette.warning.main,
@@ -171,6 +175,11 @@ const PlayerDetails = ({ player }) => {
           />
           <Typography>{winRateProgress}%</Typography>
         </Box>
+        <Typography>Games played: {player.gamesPlayed } </Typography>
+        <Typography>Games won: {player.gamesWon } </Typography>
+        <Typography>Games lost: {player.gamesLost } </Typography>
+        <Typography>Games draw: {player.gamesDraw } </Typography>
+
       </Box>
 
       <Box my={2} sx={{ maxWidth: 400 }}>
@@ -197,7 +206,7 @@ const PlayerDetails = ({ player }) => {
         <Typography>Performance Against {player.mostCommonOpponent}</Typography>
         <Bar data={opponentData} options={chartOptions} />
       </Box>
-      
+
       <Box my={2} sx={{ maxWidth: 400 }}>
         <Typography variant="subtitle2">
           Teammate with most wins: {player.teammateWithMostWinsName}

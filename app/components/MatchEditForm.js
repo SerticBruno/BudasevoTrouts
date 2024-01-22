@@ -9,16 +9,8 @@ import {
   DialogActions,
   Button,
   Typography,
-  Avatar,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  IconButton,
 } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GamesContext from "../contexts/GamesContext";
 import PlayersContext from "../contexts/PlayersContext";
 import TeamList from "./TeamList";
@@ -30,7 +22,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
     team2Score: match.team2Score || 0,
   });
   const { refreshGames } = useContext(GamesContext);
-  const { refreshPlayers } = useContext(PlayersContext);
+  const { fetchPlayers } = useContext(PlayersContext);
 
   const handleChange = (event) => {
     setMatchDetails({
@@ -47,23 +39,15 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
     });
   };
 
-  const determineWinner = () => {
-    const team1Score = parseInt(matchDetails.team1Score, 10);
-    const team2Score = parseInt(matchDetails.team2Score, 10);
-    if (team1Score > team2Score) return "Team 1 Wins";
-    if (team2Score > team1Score) return "Team 2 Wins";
-    return "Draw";
-  };
-
   const determineForTeam1 = () => {
     // Ensure that both scores are numbers before comparing
     const team1Score = Number(matchDetails.team1Score);
     const team2Score = Number(matchDetails.team2Score);
-  
+
     if (team1Score == 0 && team2Score == 0) {
       return ""; // Or any other default message you prefer
     }
-  
+
     if (team1Score > team2Score) {
       return "Winners";
     } else if (team2Score > team1Score) {
@@ -72,16 +56,16 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
       return "Draw";
     }
   };
-  
+
   const determineForTeam2 = () => {
     // Ensure that both scores are numbers before comparing
     const team1Score = Number(matchDetails.team1Score);
     const team2Score = Number(matchDetails.team2Score);
-  
+
     if (team1Score == 0 && team2Score == 0) {
       return ""; // Or any other default message you prefer
     }
-  
+
     if (team1Score > team2Score) {
       return "Luzeri";
     } else if (team2Score > team1Score) {
@@ -90,7 +74,6 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
       return "Draw";
     }
   };
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -106,7 +89,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
       onClose();
       onSave();
       refreshGames();
-      refreshPlayers(); // Refresh player stats after match update
+      fetchPlayers(); // Refresh player stats after match update
     } catch (error) {
       console.error("Error updating match:", error);
     }
@@ -145,8 +128,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
           />
 
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Typography variant="subtitle1">Team 1</Typography>
+            <Grid item xs={12} md={6}>
               <TextField
                 label="Team 1 Score"
                 name="team1Score"
@@ -156,17 +138,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
                 fullWidth
                 margin="normal"
               />
-              <Typography variant="h6" style={{ margin: "10px 0" }}>
-                {determineForTeam1()}
-              </Typography>
-              <TeamList 
-                team={matchDetails.team1} 
-                onMovePlayer={(playerId) => movePlayerToTeam(playerId, 'team1', 'team2')} 
-                direction="right" 
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="subtitle1">Team 2</Typography>
+
               <TextField
                 label="Team 2 Score"
                 name="team2Score"
@@ -176,13 +148,33 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
                 fullWidth
                 margin="normal"
               />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1">Team 1</Typography>
+              <Typography variant="h6" style={{ margin: "10px 0" }}>
+                {determineForTeam1()}
+              </Typography>
+              <TeamList
+                team={matchDetails.team1}
+                onMovePlayer={(playerId) =>
+                  movePlayerToTeam(playerId, "team1", "team2")
+                }
+                direction="right"
+                isFirst="1"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1">Team 2</Typography>
               <Typography variant="h6" style={{ margin: "10px 0" }}>
                 {determineForTeam2()}
               </Typography>
-              <TeamList 
-                team={matchDetails.team2} 
-                onMovePlayer={(playerId) => movePlayerToTeam(playerId, 'team2', 'team1')} 
-                direction="left" 
+              <TeamList
+                team={matchDetails.team2}
+                onMovePlayer={(playerId) =>
+                  movePlayerToTeam(playerId, "team2", "team1")
+                }
+                direction="left"
+                isFirst="2"
               />
             </Grid>
           </Grid>
