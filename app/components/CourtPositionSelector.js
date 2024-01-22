@@ -18,8 +18,8 @@ const CourtPositionMarker = ({ position, onClick }) => {
         position: "absolute",
         top: `${position.top}%`,
         left: `${position.left}%`,
-        width: isClicked ? 44 : 33, // Enlarge on click
-        height: isClicked ? 44 : 33,
+        width: isClicked ? 144 : 99, // Enlarge on click
+        height: isClicked ? 144 : 99,
         border: '3px solid white',
         backgroundColor: isClicked ? 'white' : 'transparent', // Flash red on click
         borderRadius: "50%",
