@@ -28,6 +28,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import GamesContext from "../contexts/GamesContext";
 import MatchEditForm from "./MatchEditForm";
+import Skeleton from "@mui/material/Skeleton"; // Importing Skeleton component
+
 import PlayersContext from "../contexts/PlayersContext"; // Import PlayersContext
 import MatchCreationForm from "../components/MatchCreationForm";
 import GameAccordion from "./GameAccordion";
@@ -44,6 +46,13 @@ const GamesList = () => {
     setGameToDelete(game);
     setOpenDialog(true);
   };
+  const SkeletonPlaceholder = () => (
+    <Box>
+      <Skeleton variant="rectangular" width="100%" height={10} />
+      <Skeleton variant="text" />
+      <Skeleton variant="text" />
+    </Box>
+  );
 
   useEffect(() => {
     // Simulate loading for a few seconds (you can replace this with actual data fetching)
@@ -88,9 +97,15 @@ const GamesList = () => {
         Matches
       </Typography>
       <MatchCreationForm></MatchCreationForm>
-
-      {isLoading ? ( 
-        <Box>
+      {isLoading ? (
+        <Box
+          sx={{
+            height: "150px", // Set the height of the Box
+            display: "flex", // Enable Flexbox
+            justifyContent: "center", // Center content horizontally
+            alignItems: "center", // Center content vertically
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : (
@@ -103,7 +118,6 @@ const GamesList = () => {
           />
         ))
       )}
-
       {editMatch && (
         <MatchEditForm
           match={editMatch}
@@ -112,7 +126,6 @@ const GamesList = () => {
           onSave={() => refreshGames()}
         />
       )}
-
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}

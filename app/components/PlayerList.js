@@ -108,7 +108,14 @@ const PlayersList = () => {
       <PlayerCreationForm></PlayerCreationForm>
       {error && <Typography color="error">{error}</Typography>}
       {isLoading ? (
-        <Box>
+        <Box
+          sx={{
+            height: "500px", // Set the height of the Box
+            display: "flex", // Enable Flexbox
+            justifyContent: "center", // Center content horizontally
+            alignItems: "center", // Center content vertically
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : (
