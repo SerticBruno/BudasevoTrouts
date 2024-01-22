@@ -49,7 +49,7 @@ const GamesList = () => {
     // Simulate loading for a few seconds (you can replace this with actual data fetching)
     setTimeout(() => {
       setIsLoading(false); // Set loading to false after data fetching is complete
-    }, 2000); // Adjust the duration as needed
+    }, 1000); // Adjust the duration as needed
   }, []);
 
   const handleDelete = async () => {
