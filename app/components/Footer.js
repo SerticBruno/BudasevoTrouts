@@ -13,7 +13,7 @@ const Footer = () => {
       sx={{
         py: 3,
         px: 2,
-        mt: 'auto',
+        mt: 3,
         backgroundColor: (theme) =>
           theme.palette.mode === 'dark'
             ? theme.palette.grey[200]
