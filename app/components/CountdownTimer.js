@@ -9,7 +9,7 @@ const CountdownTimer = () => {
   const calculateTimeLeft = () => {
     const now = new Date();
     const nextTuesday = new Date(now);
-    nextTuesday.setUTCHours(9, 0, 0, 0); // Set to 10:00 AM UTC
+    nextTuesday.setUTCHours(9, 0, 0, 0); // Set to 9:00 AM UTC+1
     const daysUntilNextTuesday = ((7 - now.getUTCDay()) + 2) % 7; // Calculate days until next Tuesday
     nextTuesday.setDate(nextTuesday.getDate() + daysUntilNextTuesday);
 
