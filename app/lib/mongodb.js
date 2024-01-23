@@ -8,10 +8,10 @@ export async function connectToDatabase() {
     return { client: cachedClient, db: cachedDb };
   }
 
-  const client = new MongoClient(process.env.MONGODB_URI);
+  const client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
 
   await client.connect();
-  const db = client.db(process.env.MONGODB_DB);
+  const db = client.db(process.env.NEXT_PUBLIC_MONGODB_DB);
 
   cachedClient = client;
   cachedDb = db;
