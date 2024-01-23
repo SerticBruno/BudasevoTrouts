@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 // import Header from './Header'; // If you have a header component
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const customTheme = createTheme({
   palette: {
@@ -29,6 +30,7 @@ const Layout = ({ children }) => {
         <Footer />
       </ThemeProvider>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 };
