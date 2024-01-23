@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 // import Header from './Header'; // If you have a header component
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Analytics } from '@vercel/analytics/react';
 
 const customTheme = createTheme({
   palette: {
@@ -27,6 +28,7 @@ const Layout = ({ children }) => {
         </main>
         <Footer />
       </ThemeProvider>
+      <Analytics />
     </>
   );
 };

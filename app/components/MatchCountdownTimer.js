@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Paper, Box } from '@mui/material';
-import EventIcon from '@mui/icons-material/Event';
+import React, { useState, useEffect } from "react";
+import { Typography, Grid, Paper, Box } from "@mui/material";
+import EventIcon from "@mui/icons-material/Event";
 
 const MatchCountdownTimer = () => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -10,7 +10,7 @@ const MatchCountdownTimer = () => {
     const now = new Date();
     const nextWednesday = new Date(now);
     nextWednesday.setUTCHours(20, 0, 0, 0); // Set to 20:00 (9:00 PM) for UTC+1
-    const daysUntilNextWednesday = ((7 - now.getUTCDay()) + 3) % 7; // Calculate days until next Wednesday
+    const daysUntilNextWednesday = (7 - now.getUTCDay() + 3) % 7; // Calculate days until next Wednesday
     nextWednesday.setDate(nextWednesday.getDate() + daysUntilNextWednesday);
 
     let timeDifference = nextWednesday - now;
@@ -43,36 +43,41 @@ const MatchCountdownTimer = () => {
   const hours = Math.floor((timeLeft / 3600) % 24);
   const days = Math.floor(timeLeft / 86400);
 
-  return (
-    <Paper elevation={3} style={{ padding: '16px' }}>
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item xs={12}>
-          <Box display="flex" justifyContent="center" alignItems="center">
-            <EventIcon fontSize="large" />
-            <Typography variant="h6" style={{ marginLeft: '8px' }}>
-              Match starts in
-            </Typography>
-          </Box>
+  if (days <= 6) {
+    return (
+      <Paper elevation={3} style={{ padding: "16px" }}>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <EventIcon fontSize="large" />
+              <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                Match starts in
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={3} style={{ textAlign: "center" }}>
+            <Typography variant="h4">{days}</Typography>
+            <Typography variant="caption">{days === 1 ? 'Day' : 'Days'}</Typography>
+          </Grid>
+          <Grid item xs={3} style={{ textAlign: "center" }}>
+            <Typography variant="h4">{hours}</Typography>
+            <Typography variant="caption">Hours</Typography>
+          </Grid>
+          <Grid item xs={3} style={{ textAlign: "center" }}>
+            <Typography variant="h4">{minutes}</Typography>
+            <Typography variant="caption">Minutes</Typography>
+          </Grid>
+          <Grid item xs={3} style={{ textAlign: "center" }}>
+            <Typography variant="h4">{seconds}</Typography>
+            <Typography variant="caption">Seconds</Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={3} style={{ textAlign: 'center' }}>
-          <Typography variant="h4">{days}</Typography>
-          <Typography variant="caption">Days</Typography>
-        </Grid>
-        <Grid item xs={3} style={{ textAlign: 'center' }}>
-          <Typography variant="h4">{hours}</Typography>
-          <Typography variant="caption">Hours</Typography>
-        </Grid>
-        <Grid item xs={3} style={{ textAlign: 'center' }}>
-          <Typography variant="h4">{minutes}</Typography>
-          <Typography variant="caption">Minutes</Typography>
-        </Grid>
-        <Grid item xs={3} style={{ textAlign: 'center' }}>
-          <Typography variant="h4">{seconds}</Typography>
-          <Typography variant="caption">Seconds</Typography>
-        </Grid>
-      </Grid>
-    </Paper>
-  );
+      </Paper>
+    );
+  } else {
+    // If there are more than 6 days remaining, return null to hide the timer
+    return null;
+  }
 };
 
 export default MatchCountdownTimer;
