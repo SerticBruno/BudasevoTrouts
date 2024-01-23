@@ -18,8 +18,16 @@ const CourtPositionMarker = ({ position, onClick }) => {
         position: "absolute",
         top: `${position.top}%`,
         left: `${position.left}%`,
-        width: isClicked ? 144 : 99, // Enlarge on click
-        height: isClicked ? 144 : 99,
+        width: {
+          xs: isClicked ? 66 : 33,  // Width for extra-small devices (mobile)
+          sm: isClicked ? 100 : 44,   // Width for small devices (tablet)
+          md: isClicked ? 110 : 55,   // Width for medium devices and up (optional, can be adjusted or removed)
+        },
+        height: {
+          xs: isClicked ? 66 : 33,  // Width for extra-small devices (mobile)
+          sm: isClicked ? 100 : 44,   // Width for small devices (tablet)
+          md: isClicked ? 110 : 55,   // Width for medium devices and up (optional, can be adjusted or removed)
+        },
         border: '3px solid white',
         backgroundColor: isClicked ? 'white' : 'transparent', // Flash red on click
         borderRadius: "50%",
@@ -50,7 +58,11 @@ const CourtPositionSelector = ({ imageSrc, onSelectPosition }) => {
       position: "relative", 
       display: 'flex', 
       justifyContent: 'center',
-      width: "80%", // Adjust the width as needed
+      width: {
+        xs: "100%",  // Width for extra-small devices (mobile)
+        sm: "60%",   // Width for small devices (tablet)
+        md: "40%",   // Width for medium devices and up (optional, can be adjusted or removed)
+      },
       mt: 2, mb: 2
     }}>
       <Box sx={{ position: "relative", width: "100%" }}>

@@ -1,33 +1,46 @@
+import { calculateGamesWon } from "../../app/utils/playerStatsUtils";
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
 // match details, selectedPlayers
-export const assignTeamsBalanced = (
-  selectedPlayers,
-  players,
-) => {
+export const assignTeamsBalanced = (games, selectedPlayers, players) => {
   let playersByPosition = { 1: [], 2: [], 3: [], 4: [], 5: [] };
 
-  // Group players by position
   selectedPlayers.forEach((playerId) => {
     const player = players.find((p) => p._id === playerId);
     if (player && playersByPosition.hasOwnProperty(player.position)) {
-      playersByPosition[player.position].push(playerId);
+      let playerMatchScore = calculateGamesWon(games, player._id.toString()); // calculate the match score
+      playersByPosition[player.position].push({
+        id: playerId,
+        score: playerMatchScore,
+      });
     }
   });
 
   let team1 = [],
     team2 = [];
+
   Object.keys(playersByPosition).forEach((position) => {
     let positionPlayers = playersByPosition[position];
-    positionPlayers.sort(() => Math.random() - 0.5);
 
-    // Distribute players to teams, with extra player going to the smaller team
-    positionPlayers.forEach((playerId, index) => {
-      if (
-        index % 2 === 0 ||
-        (index === positionPlayers.length - 1 && team1.length > team2.length)
-      ) {
-        team2.push(playerId);
+    // Sort players by match score within each position
+    positionPlayers.forEach((player) => {
+      player.score += Math.random() - 0.5; // Adjust the factor to control randomness
+    });
+
+    positionPlayers.sort((a, b) => b.score - a.score);
+
+    // Distribute players to balance match score
+    positionPlayers.forEach((player, index) => {
+      if (index % 2 === 0) {
+        team1.push(player.id);
       } else {
-        team1.push(playerId);
+        team2.push(player.id);
       }
     });
   });

@@ -21,6 +21,7 @@ import { assignTeamsBalanced } from "../utils/teamsBalancer";
 
 const MatchCreationModal = ({ open, onClose }) => {
   const today = new Date().toISOString().split("T")[0];
+  const { games } = useContext(GamesContext);
   const { players, fetchPlayers } = useContext(PlayersContext);
   const { refreshGames } = useContext(GamesContext);
   const [formError, setFormError] = useState("");
@@ -54,6 +55,7 @@ const MatchCreationModal = ({ open, onClose }) => {
 
 
     const balancedTeams = assignTeamsBalanced(
+      games,
       selectedPlayers,
       players,
     );
@@ -118,6 +120,7 @@ const MatchCreationModal = ({ open, onClose }) => {
         team2: [],
       });
       setSelectedPlayers([]);
+      onClose();
     } catch (error) {
       console.error("Failed to create match:", error);
     }

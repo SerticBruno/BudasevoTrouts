@@ -115,7 +115,6 @@ const PlayerCreationForm = ({ onPlayerCreate }) => {
     } catch (error) {
       console.error("Error creating player:", error);
       // Handle errors here (e.g., show error message to the user)
-      handleClose();
     }
   };
 
