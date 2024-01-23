@@ -42,7 +42,7 @@ const CountdownTimer = () => {
   const minutes = Math.floor((timeLeft / 60) % 60);
   const hours = Math.floor((timeLeft / 3600) % 24);
   const days = Math.floor(timeLeft / 86400);
-  if (days <= 6) {
+  if (days <= 5) {
     return (
       <Paper elevation={3} style={{ padding: "16px" }}>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
