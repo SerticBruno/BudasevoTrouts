@@ -60,15 +60,15 @@ const CountdownTimer = () => {
           </Grid>
           <Grid item xs={3} style={{ textAlign: "center" }}>
             <Typography variant="h4">{hours}</Typography>
-            <Typography variant="caption">Hours</Typography>
+            <Typography variant="caption">{hours === 1 ? 'Hour' : 'Hours'}</Typography>
           </Grid>
           <Grid item xs={3} style={{ textAlign: "center" }}>
             <Typography variant="h4">{minutes}</Typography>
-            <Typography variant="caption">Minutes</Typography>
+            <Typography variant="caption">{minutes === 1 ? 'Minute' : 'Minutes'}</Typography>
           </Grid>
           <Grid item xs={3} style={{ textAlign: "center" }}>
             <Typography variant="h4">{seconds}</Typography>
-            <Typography variant="caption">Seconds</Typography>
+            <Typography variant="caption">{seconds === 1 ? 'Second' : 'Seconds'}</Typography>
           </Grid>
         </Grid>
       </Paper>
