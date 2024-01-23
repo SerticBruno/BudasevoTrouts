@@ -8,10 +8,10 @@ export async function connectToDatabase() {
     return { client: cachedClient, db: cachedDb };
   }
 
-  const client = new MongoClient('mongodb+srv://budasevo:budasevo13Admin@budasevotrouts.rm3sk21.mongodb.net/?retryWrites=true&w=majority');
+  const client = new MongoClient(process.env.MONGODB_URI);
 
   await client.connect();
-  const db = client.db('BudasevoTrouts');
+  const db = client.db(process.env.MONGODB_DB);
 
   cachedClient = client;
   cachedDb = db;

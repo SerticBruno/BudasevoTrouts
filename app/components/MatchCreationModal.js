@@ -17,9 +17,11 @@ import GamesContext from "../contexts/GamesContext";
 import PlayersContext from "../contexts/PlayersContext";
 import TeamList from "./TeamList"; // Import TeamList component
 import PlayerSelection from "./PlayerSelection";
+import { assignTeamsBalanced } from "../utils/teamsBalancer";
 
 const MatchCreationModal = ({ open, onClose }) => {
   const today = new Date().toISOString().split("T")[0];
+  const { games } = useContext(GamesContext);
   const { players, fetchPlayers } = useContext(PlayersContext);
   const { refreshGames } = useContext(GamesContext);
   const [formError, setFormError] = useState("");
@@ -49,79 +51,28 @@ const MatchCreationModal = ({ open, onClose }) => {
     });
   };
 
-  const assignTeamsBalanced = () => {
-    let playersByPosition = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+  const handleAssignTeams = () => {
 
-    // Group players by position
-    selectedPlayers.forEach((playerId) => {
-      const player = players.find((p) => p._id === playerId);
-      if (player && playersByPosition.hasOwnProperty(player.position)) {
-        playersByPosition[player.position].push(playerId);
-      }
-    });
 
-    let team1 = [],
-      team2 = [];
-    Object.keys(playersByPosition).forEach((position) => {
-      let positionPlayers = playersByPosition[position];
-      positionPlayers.sort(() => Math.random() - 0.5);
+    const balancedTeams = assignTeamsBalanced(
+      games,
+      selectedPlayers,
+      players,
+    );
 
-      // Distribute players to teams, with extra player going to the smaller team
-      positionPlayers.forEach((playerId, index) => {
-        if (
-          index % 2 === 0 ||
-          (index === positionPlayers.length - 1 && team1.length > team2.length)
-        ) {
-          team2.push(playerId);
-        } else {
-          team1.push(playerId);
-        }
-      });
-    });
-
-    // If teams are uneven, move a player from the larger team to the smaller team
-    if (team1.length !== team2.length) {
-      let [largerTeam, smallerTeam] =
-        team1.length > team2.length ? [team1, team2] : [team2, team1];
-      let moved = false;
-
-      // Try to move a player while maintaining position balance
-      for (let position = 1; position <= 5 && !moved; position++) {
-        let playerToMove = largerTeam.find((playerId) => {
-          return (
-            players.find((p) => p._id === playerId).position == position &&
-            smallerTeam.every(
-              (pId) => players.find((p) => p._id === pId).position !== position
-            )
-          );
-        });
-
-        if (playerToMove) {
-          largerTeam = largerTeam.filter((pId) => pId !== playerToMove);
-          smallerTeam.push(playerToMove);
-          moved = true;
-        }
-      }
-
-      // Update the teams only if a player was moved
-      if (moved) {
-        if (team1.length > team2.length) {
-          [team1, team2] = [largerTeam, smallerTeam];
-        } else {
-          [team2, team1] = [largerTeam, smallerTeam];
-        }
-      }
-    }
-
-    if (team1.length >= 5 && team2.length >= 5) {
+    if (
+      Array.isArray(balancedTeams.team1) &&
+      Array.isArray(balancedTeams.team2)
+    ) {
       setFormError(""); // Clear the error message if the form is valid
+      setMatchDetails({
+        ...matchDetails,
+        team1: balancedTeams.team1,
+        team2: balancedTeams.team2,
+      });
+    } else {
+      setFormError("Could not form balanced teams.");
     }
-
-    setMatchDetails({
-      ...matchDetails,
-      team1,
-      team2,
-    });
   };
 
   const handleSubmit = async (event) => {
@@ -169,6 +120,7 @@ const MatchCreationModal = ({ open, onClose }) => {
         team2: [],
       });
       setSelectedPlayers([]);
+      onClose();
     } catch (error) {
       console.error("Failed to create match:", error);
     }
@@ -196,7 +148,6 @@ const MatchCreationModal = ({ open, onClose }) => {
               gap: 2,
               maxHeight: "80vh", // Add a maximum height to allow scrolling
               overflowY: "auto", // Enable vertical scrolling if the content exceeds the maximum height
-           
             }}
           >
             <Grid container spacing={1}>
@@ -244,7 +195,7 @@ const MatchCreationModal = ({ open, onClose }) => {
                 />
                 <Button
                   variant="outlined"
-                  onClick={assignTeamsBalanced}
+                  onClick={handleAssignTeams}
                   sx={{ mt: 1 }}
                 >
                   Assign Teams Balanced
