@@ -86,9 +86,9 @@ const Navbar = (props) => {
                 color="inherit"
                 startIcon={<GamesIcon />}
                 component={Link}
-                href="/"
+                href="/martinov"
               >
-                Matches
+                Martinov
               </Button>
             </Hidden>
             <Hidden smUp>
@@ -128,9 +128,9 @@ const Navbar = (props) => {
                 <MenuItem
                   onClick={handleClose}
                   component={Link}
-                  href="/"
+                  href="/martinov"
                 >
-                  Matches
+                  Martinov
                 </MenuItem>
               </Menu>
             </Hidden>

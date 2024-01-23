@@ -26,6 +26,7 @@ import PlayerStatsTable from "./components/PlayerStatsTable";
 import { GamesProvider } from "./contexts/GamesContext";
 import { PlayersProvider } from "./contexts/PlayersContext";
 import Layout from "./components/Layout";
+import MartinovaKomponenta from "./components/MartinovaKomponenta";
 
 export default function Home() {
   return (
@@ -34,11 +35,17 @@ export default function Home() {
         <GamesProvider>
           <ThemeProvider theme={theme}>
             <Box>
-              <Container sx={{ mt: 4 }}>
-                <CountdownTimer></CountdownTimer>
-              </Container>
-              <Container sx={{ mt: 4 }}>
-                <MatchCountdownTimer></MatchCountdownTimer>
+              <Container maxWidth="lg" sx={{ mt: 4 }}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <CountdownTimer></CountdownTimer>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <MatchCountdownTimer></MatchCountdownTimer>
+                  </Grid>
+                </Grid>
               </Container>
 
               <Container maxWidth="lg" sx={{ mt: 4 }}>
@@ -83,7 +90,7 @@ export default function Home() {
                       </CardContent>
                     </Card>
                   </Grid> */}
-                  <Grid item xs={12} md={6}>
+                  {/* <Grid item xs={12} md={6} >
                     <Card sx={{ height: "100%" }}>
                       <CardMedia
                         component="img"
@@ -100,7 +107,7 @@ export default function Home() {
                         </Typography>
                       </CardContent>
                     </Card>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Container>
             </Box>
