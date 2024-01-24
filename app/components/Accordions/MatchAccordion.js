@@ -11,9 +11,9 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TeamList from "./TeamList";
+import TeamList from "../Forms/FormComponents/TeamList";
 
-const GameAccordion = ({ game, onEdit, onDelete }) => {
+const MatchAccordion = ({ game, onEdit, onDelete }) => {
   const formatDate = (dateString) => {
     const months = [
       "January",
@@ -134,4 +134,4 @@ const GameAccordion = ({ game, onEdit, onDelete }) => {
   );
 };
 
-export default GameAccordion;
+export default MatchAccordion;

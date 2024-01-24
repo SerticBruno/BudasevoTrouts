@@ -11,9 +11,9 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import GamesContext from "../contexts/GamesContext";
-import PlayersContext from "../contexts/PlayersContext";
-import TeamList from "./TeamList";
+import GamesContext from "../../contexts/GamesContext";
+import PlayersContext from "../../contexts/PlayersContext";
+import TeamList from "./FormComponents/TeamList";
 
 const MatchEditForm = ({ match, open, onClose, onSave }) => {
   const [matchDetails, setMatchDetails] = useState({

@@ -17,18 +17,18 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./themes/light";
-import GamesList from "./components/GamesList";
+import MatchesList from "./components/Previews/MatchesList";
 import SignupTimer from "./components/Timers/SignupTimer";
 import DemoTimer from "./components/Timers/DemoTimer";
 import MatchCountdownTimer from "./components/Timers/MatchCountdownTimer";
-import PlayerList from "./components/PlayerList";
-import MatchCreationForm from "./components/MatchCreationForm";
-import PlayerStatsTable from "./components/PlayerStatsTable";
+import PlayerList from "./components/Previews/PlayerList";
+import MatchCreationForm from "./components/Forms/MatchCreationForm";
+import PlayerStatsTable from "./components/Previews/PlayerStatsTable";
 import { GamesProvider } from "./contexts/GamesContext";
 import { PlayersProvider } from "./contexts/PlayersContext";
-import Layout from "./components/Layout";
-import MartinovaKomponenta from "./components/MartinovaKomponenta";
-import TournamentBracket from "./components/TournamentBracket";
+import Layout from "./components/Common/Layout";
+import MartinovaKomponenta from "./components/MartinovFolder/MartinovaKomponenta";
+import TournamentBracket from "./components/Testing/TournamentBracket";
 
 export default function Home() {
   return (
@@ -61,7 +61,7 @@ export default function Home() {
 
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={12}>
-                    <GamesList></GamesList>
+                    <MatchesList></MatchesList>
                   </Grid>
                 </Grid>
 

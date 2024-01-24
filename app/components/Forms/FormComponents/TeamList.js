@@ -15,7 +15,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"; // Import the Arrow Down icon
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward"; // Import the Arrow Up icon
-import PlayersContext from "../contexts/PlayersContext";
+import PlayersContext from "../../../contexts/PlayersContext";
 
 const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
   const { players } = useContext(PlayersContext);

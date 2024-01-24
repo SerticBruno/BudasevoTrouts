@@ -11,8 +11,8 @@ import {
   Button,
   Paper,
 } from "@mui/material";
-import PlayersContext from "../contexts/PlayersContext";
-import CourtPositionSelector from "./CourtPositionSelector";
+import PlayersContext from "../../contexts/PlayersContext";
+import CourtPositionSelector from "./FormComponents/CourtPositionSelector";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const PlayerCreationForm = ({ onPlayerCreate }) => {

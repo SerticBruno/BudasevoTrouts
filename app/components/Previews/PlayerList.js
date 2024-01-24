@@ -19,10 +19,10 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PlayerEditForm from "./PlayerEditForm";
+import PlayerEditForm from "../Forms/PlayerEditForm";
 import PlayerDetails from "./PlayerDetails";
-import PlayersContext from "../contexts/PlayersContext";
-import PlayerCreationForm from "../components/PlayerCreationForm";
+import PlayersContext from "../../contexts/PlayersContext";
+import PlayerCreationForm from "../Forms/PlayerCreationForm";
 
 const PlayersList = () => {
   const { players, fetchPlayers, error } = useContext(PlayersContext);
