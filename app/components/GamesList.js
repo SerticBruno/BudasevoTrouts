@@ -33,6 +33,7 @@ import Skeleton from "@mui/material/Skeleton"; // Importing Skeleton component
 import PlayersContext from "../contexts/PlayersContext"; // Import PlayersContext
 import MatchCreationForm from "../components/MatchCreationForm";
 import GameAccordion from "./GameAccordion";
+import LoadingBar from "../components/Loaders/LoadingBar";
 
 const GamesList = () => {
   const { games, refreshGames } = useContext(GamesContext);
@@ -98,15 +99,8 @@ const GamesList = () => {
       </Typography>
       <MatchCreationForm></MatchCreationForm>
       {isLoading ? (
-        <Box
-          sx={{
-            height: "150px", // Set the height of the Box
-            display: "flex", // Enable Flexbox
-            justifyContent: "center", // Center content horizontally
-            alignItems: "center", // Center content vertically
-          }}
-        >
-          <CircularProgress />
+        <Box>
+          <LoadingBar></LoadingBar>
         </Box>
       ) : (
         games.map((game, index) => (

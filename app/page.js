@@ -18,8 +18,8 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./themes/light";
 import GamesList from "./components/GamesList";
-import CountdownTimer from "./components/CountdownTimer";
-import MatchCountdownTimer from "./components/MatchCountdownTimer";
+import SignupTimer from "./components/Timers/SignupTimer";
+import MatchCountdownTimer from "./components/Timers/MatchCountdownTimer";
 import PlayerList from "./components/PlayerList";
 import MatchCreationForm from "./components/MatchCreationForm";
 import PlayerStatsTable from "./components/PlayerStatsTable";
@@ -27,6 +27,7 @@ import { GamesProvider } from "./contexts/GamesContext";
 import { PlayersProvider } from "./contexts/PlayersContext";
 import Layout from "./components/Layout";
 import MartinovaKomponenta from "./components/MartinovaKomponenta";
+import TournamentBracket from "./components/TournamentBracket";
 
 export default function Home() {
   return (
@@ -36,14 +37,19 @@ export default function Home() {
           <ThemeProvider theme={theme}>
             <Box>
               <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <Grid container spacing={3}>
+                <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} md={12}>
-                    <CountdownTimer></CountdownTimer>
+                    <SignupTimer></SignupTimer>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}  mb={5}>
+                  <Grid item xs={12} md={12}>
+                    <MatchCountdownTimer></MatchCountdownTimer>
                   </Grid>
                 </Grid>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={12}>
-                    <MatchCountdownTimer></MatchCountdownTimer>
+                    {/* <TournamentBracket></TournamentBracket> */}
                   </Grid>
                 </Grid>
               </Container>
