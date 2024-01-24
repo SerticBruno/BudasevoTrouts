@@ -28,7 +28,7 @@ const Footer = () => {
             align="center"
             sx={{ fontWeight: "bold" }}
           >
-            Made with 💚 by You
+            Made possible by You 💚 
           </Typography>
           <Typography
             variant="body2"
