@@ -5,7 +5,7 @@ import TimerBase from "./TimerBase";
 import { calculateNextOccurance } from "../../utils/timers";
 
 const DemoTimer = () => {
-  const targetTime = calculateNextOccurance(3, 15, 59, -45);
+  const targetTime = calculateNextOccurance(3, 18, 30, 0);
   const title = "Amo jedan demo derani";
   const threshold = 5;
 

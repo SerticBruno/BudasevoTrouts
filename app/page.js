@@ -31,97 +31,73 @@ import MartinovaKomponenta from "./components/MartinovaKomponenta";
 import TournamentBracket from "./components/TournamentBracket";
 
 export default function Home() {
+  const currentTime = new Date();
+  const showHiddenElements =
+    currentTime.getHours() >= 19 && currentTime.getMinutes() >= 30;
+
   return (
     <Layout>
       <PlayersProvider>
         <GamesProvider>
           <ThemeProvider theme={theme}>
             <Box>
+              {!showHiddenElements && (
               <Container maxWidth="lg" sx={{ mt: 4 }}>
                 <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} md={12}>
                     <DemoTimer></DemoTimer>
                   </Grid>
                 </Grid>
-                <Grid container spacing={3} mb={5}>
-                  <Grid item xs={12} md={12}>
-                    <SignupTimer></SignupTimer>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={3} mb={5}>
-                  <Grid item xs={12} md={12}>
-                    <MatchCountdownTimer></MatchCountdownTimer>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
-                    {/* <TournamentBracket></TournamentBracket> */}
-                  </Grid>
-                </Grid>
               </Container>
+              )}
 
-              <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
-                    <GamesList></GamesList>
+              {/* everything after this line should hidden  */}
+              {/* these elemtns should be hidden  */}
+
+              {showHiddenElements && (
+                <Container maxWidth="lg" sx={{ mt: 4 }}>
+                  <Grid container spacing={3} mb={5}>
+                    <Grid item xs={12} md={12}>
+                      <DemoTimer></DemoTimer>
+                    </Grid>
                   </Grid>
-                </Grid>
-
-                <Grid container spacing={3} sx={{ mt: 4 }}>
-                  <Grid item xs={12} md={12}>
-                    <PlayerList></PlayerList>
+                  <Grid container spacing={3} mb={5}>
+                    <Grid item xs={12} md={12}>
+                      <SignupTimer></SignupTimer>
+                    </Grid>
                   </Grid>
-                </Grid>
-
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12}>
-                    <PlayerStatsTable />
+                  <Grid container spacing={3} mb={5}>
+                    <Grid item xs={12} md={12}>
+                      <MatchCountdownTimer></MatchCountdownTimer>
+                    </Grid>
                   </Grid>
-                </Grid>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                      {/* <TournamentBracket></TournamentBracket> */}
+                    </Grid>
+                  </Grid>
 
-                <Grid container spacing={3} mb={3}>
-                  {/* <Grid item xs={12} md={6}>
-                    <Card sx={{ height: "100%" }}>
-                      <CardMedia
-                        component="img"
-                        sx={{
-                          width: "100%", // Full width of the card
-                          height: 300, // Height adjusts to maintain the image's aspect ratio
-                        }}
-                        image="/jpgs/court.jpg"
-                        alt="Basketball Court"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                          Create a Match
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Explore upcoming basketball matches and join the one
-                          that fits your schedule.
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid> */}
-                  {/* <Grid item xs={12} md={6} >
-                    <Card sx={{ height: "100%" }}>
-                      <CardMedia
-                        component="img"
-                        sx={{
-                          width: "100%", // Full width of the card
-                          height: 300, // Height adjusts to maintain the image's aspect ratio
-                        }}
-                        image="/pngs/team.png"
-                        alt="Basketball Team"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                          Team Rando
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid> */}
-                </Grid>
-              </Container>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                      <GamesList></GamesList>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={3} sx={{ mt: 4 }}>
+                    <Grid item xs={12} md={12}>
+                      <PlayerList></PlayerList>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                      <PlayerStatsTable />
+                    </Grid>
+                  </Grid>
+
+                  {/* these elemtns should be hidden  */}
+                </Container>
+              )}
             </Box>
           </ThemeProvider>
         </GamesProvider>
