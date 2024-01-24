@@ -31,69 +31,52 @@ import MartinovaKomponenta from "./components/MartinovaKomponenta";
 import TournamentBracket from "./components/TournamentBracket";
 
 export default function Home() {
-  const currentTime = new Date();
-  const showHiddenElements =
-    currentTime.getHours() >= 19 && currentTime.getMinutes() >= 45;
-
   return (
     <Layout>
       <PlayersProvider>
         <GamesProvider>
           <ThemeProvider theme={theme}>
             <Box>
-              {!showHiddenElements && (
               <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <Grid container spacing={3} mb={5}>
+                {/* <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} md={12}>
                     <DemoTimer></DemoTimer>
                   </Grid>
+                </Grid> */}
+                <Grid container spacing={3} mb={5}>
+                  <Grid item xs={12} md={12}>
+                    <SignupTimer></SignupTimer>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3} mb={5}>
+                  <Grid item xs={12} md={12}>
+                    <MatchCountdownTimer></MatchCountdownTimer>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    {/* <TournamentBracket></TournamentBracket> */}
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <GamesList></GamesList>
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={3} sx={{ mt: 4 }}>
+                  <Grid item xs={12} md={12}>
+                    <PlayerList></PlayerList>
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <PlayerStatsTable />
+                  </Grid>
                 </Grid>
               </Container>
-              )}
-
-              {showHiddenElements && (
-                <Container maxWidth="lg" sx={{ mt: 4 }}>
-                  <Grid container spacing={3} mb={5}>
-                    <Grid item xs={12} md={12}>
-                      <DemoTimer></DemoTimer>
-                    </Grid>
-                  </Grid>
-                  <Grid container spacing={3} mb={5}>
-                    <Grid item xs={12} md={12}>
-                      <SignupTimer></SignupTimer>
-                    </Grid>
-                  </Grid>
-                  <Grid container spacing={3} mb={5}>
-                    <Grid item xs={12} md={12}>
-                      <MatchCountdownTimer></MatchCountdownTimer>
-                    </Grid>
-                  </Grid>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={12}>
-                      {/* <TournamentBracket></TournamentBracket> */}
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={12}>
-                      <GamesList></GamesList>
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={3} sx={{ mt: 4 }}>
-                    <Grid item xs={12} md={12}>
-                      <PlayerList></PlayerList>
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={12}>
-                      <PlayerStatsTable />
-                    </Grid>
-                  </Grid>
-
-                </Container>
-              )}
             </Box>
           </ThemeProvider>
         </GamesProvider>
