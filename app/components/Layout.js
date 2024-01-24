@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
       <ThemeProvider theme={customTheme}>
         {/* <Header /> */}
         <Navbar />
-        <main style={{ paddingTop: theme.mixins.toolbar.minHeight * 3 + "px" }}>
+        <main style={{ paddingTop: theme.mixins.toolbar.minHeight * 3 + "px", minHeight: "90vh" }}>
           {children}
         </main>
         <Footer />
