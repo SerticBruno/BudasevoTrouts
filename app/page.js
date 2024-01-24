@@ -33,7 +33,7 @@ import TournamentBracket from "./components/TournamentBracket";
 export default function Home() {
   const currentTime = new Date();
   const showHiddenElements =
-    currentTime.getHours() >= 19 && currentTime.getMinutes() >= 30;
+    currentTime.getHours() >= 19 && currentTime.getMinutes() >= 45;
 
   return (
     <Layout>
