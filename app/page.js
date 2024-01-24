@@ -19,6 +19,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./themes/light";
 import GamesList from "./components/GamesList";
 import SignupTimer from "./components/Timers/SignupTimer";
+import DemoTimer from "./components/Timers/DemoTimer";
 import MatchCountdownTimer from "./components/Timers/MatchCountdownTimer";
 import PlayerList from "./components/PlayerList";
 import MatchCreationForm from "./components/MatchCreationForm";
@@ -39,10 +40,15 @@ export default function Home() {
               <Container maxWidth="lg" sx={{ mt: 4 }}>
                 <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} md={12}>
+                    <DemoTimer></DemoTimer>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3} mb={5}>
+                  <Grid item xs={12} md={12}>
                     <SignupTimer></SignupTimer>
                   </Grid>
                 </Grid>
-                <Grid container spacing={3}  mb={5}>
+                <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} md={12}>
                     <MatchCountdownTimer></MatchCountdownTimer>
                   </Grid>

@@ -3,6 +3,7 @@ import { Typography, Grid, Paper, Box } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LoadingBar from "../Loaders/LoadingBar";
+import ConfettiComponent from "../Confetti/ConfettiComponent";
 
 const TimerBase = ({ targetTime, title, threshold }) => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -54,7 +55,7 @@ const TimerBase = ({ targetTime, title, threshold }) => {
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center" alignItems="center">
-              {title === "Match" ? (
+              {title === "Match starts in" ? (
                 <EventIcon fontSize="large" />
               ) : (
                 <AccessTimeIcon fontSize="large" />
@@ -92,6 +93,21 @@ const TimerBase = ({ targetTime, title, threshold }) => {
       </Paper>
     );
   } else {
+    if (title === "Amo jedan demo derani") {
+      return (
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <ConfettiComponent duration={5000} numberOfPieces={150} />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                Amo lajv woo 🎊
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      );
+    }
+
     return null;
   }
 };
