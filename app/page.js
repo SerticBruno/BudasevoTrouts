@@ -51,9 +51,6 @@ export default function Home() {
               </Container>
               )}
 
-              {/* everything after this line should hidden  */}
-              {/* these elemtns should be hidden  */}
-
               {showHiddenElements && (
                 <Container maxWidth="lg" sx={{ mt: 4 }}>
                   <Grid container spacing={3} mb={5}>
@@ -95,7 +92,6 @@ export default function Home() {
                     </Grid>
                   </Grid>
 
-                  {/* these elemtns should be hidden  */}
                 </Container>
               )}
             </Box>
