@@ -56,6 +56,14 @@ const MatchAccordion = ({ game, onEdit, onDelete }) => {
     }
   };
 
+  const movePlayerToTeam = (playerId, fromTeam, toTeam) => {
+    setMatchDetails((prevState) => {
+      const newFromTeam = prevState[fromTeam].filter((id) => id !== playerId);
+      const newToTeam = [...prevState[toTeam], playerId];
+      return { ...prevState, [fromTeam]: newFromTeam, [toTeam]: newToTeam };
+    });
+  };
+
   const determineForTeam2 = () => {
     // Ensure that both scores are numbers before comparing
     const team1Score = Number(game.team1Score);
@@ -111,7 +119,7 @@ const MatchAccordion = ({ game, onEdit, onDelete }) => {
             </Typography>
             <Typography variant="subtitle1">Team 2:</Typography>
             <TeamList
-              team={game.team1}
+              team={game.team2}
               onMovePlayer={(playerId) =>
                 movePlayerToTeam(playerId, "team1", "team2")
               }

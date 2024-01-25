@@ -19,6 +19,7 @@ import PlayersContext from "../../../contexts/PlayersContext";
 
 const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
   const { players } = useContext(PlayersContext);
+  let teamScore = 0;
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -26,6 +27,8 @@ const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
     <List>
       {team.map((playerId) => {
         const player = players.find((p) => p._id === playerId);
+        teamScore += player?.matchScore;
+
         return (
           <ListItem key={playerId}>
             <Box display="flex" alignItems="center" width="100%">
@@ -56,7 +59,7 @@ const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
               </ListItemAvatar>
               <ListItemText
                 primary={player?.name}
-                secondary={`Position: ${player?.position}`}
+                secondary={`Pos: ${player?.position} - Score: ${player?.matchScore}`}
               />
               {direction === "right" && !isMobile && (
                 <IconButton onClick={() => onMovePlayer(playerId)}>
@@ -67,6 +70,10 @@ const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
           </ListItem>
         );
       })}
+
+      <Box style={{ textAlign: "center" }}>
+        <Typography>{teamScore}</Typography>
+      </Box>
     </List>
   );
 };
