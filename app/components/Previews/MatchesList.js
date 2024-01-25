@@ -103,10 +103,10 @@ const MatchesList = () => {
           <LoadingBar></LoadingBar>
         </Box>
       ) : (
-        games.map((game, index) => (
+        games.map((match, index) => (
           <MatchAccordion
             key={index}
-            game={game}
+            match={match}
             onEdit={handleEditClick}
             onDelete={handleDeleteClick}
           />

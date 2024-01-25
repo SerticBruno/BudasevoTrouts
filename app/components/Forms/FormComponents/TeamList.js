@@ -59,7 +59,7 @@ const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
               </ListItemAvatar>
               <ListItemText
                 primary={player?.name}
-                secondary={`Pos: ${player?.position} - Score: ${player?.matchScore}`}
+                secondary={`Position: ${player?.position}`}
               />
               {direction === "right" && !isMobile && (
                 <IconButton onClick={() => onMovePlayer(playerId)}>
@@ -70,10 +70,6 @@ const TeamList = ({ team, onMovePlayer, direction, isFirst }) => {
           </ListItem>
         );
       })}
-
-      <Box style={{ textAlign: "center" }}>
-        <Typography>{teamScore}</Typography>
-      </Box>
     </List>
   );
 };

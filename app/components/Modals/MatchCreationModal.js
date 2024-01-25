@@ -52,13 +52,7 @@ const MatchCreationModal = ({ open, onClose }) => {
   };
 
   const handleAssignTeams = () => {
-
-
-    const balancedTeams = assignTeamsBalanced(
-      games,
-      selectedPlayers,
-      players,
-    );
+    const balancedTeams = assignTeamsBalanced(games, selectedPlayers, players);
 
     if (
       Array.isArray(balancedTeams.team1) &&
@@ -213,7 +207,7 @@ const MatchCreationModal = ({ open, onClose }) => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography variant="h6">Team 2 Players</Typography>
+                <Typography variant="subtitle1">Team 2</Typography>
                 <TeamList
                   team={matchDetails.team2}
                   onMovePlayer={(playerId) =>
