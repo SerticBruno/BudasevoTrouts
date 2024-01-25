@@ -43,7 +43,6 @@ export default function MartinovaKomponenta() {
         flexDirection: "column",
         alignItems: "center",
         margin: 2,
-        minHeight: "60vh",
       }}
     >
       <Typography variant="h3" gutterBottom mb={5}>
