@@ -7,6 +7,7 @@ import {
   DialogContent,
   TextField,
   DialogActions,
+  Box,
   Button,
   Typography,
   Grid,
@@ -16,11 +17,10 @@ import PlayersContext from "../../contexts/PlayersContext";
 import TeamList from "./FormComponents/TeamList";
 
 const MatchEditForm = ({ match, open, onClose, onSave }) => {
-  
   const [matchDetails, setMatchDetails] = useState({
     ...match,
-    team1Score: match.team1Score || 0,
-    team2Score: match.team2Score || 0,
+    team1Score: match?.team1Score || 0,
+    team2Score: match?.team2Score || 0,
   });
   const { refreshGames } = useContext(GamesContext);
   const { fetchPlayers } = useContext(PlayersContext);
@@ -129,26 +129,30 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
           />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Team 1 Score"
-                name="team1Score"
-                type="number"
-                value={matchDetails.team1Score}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-              />
+            <Grid item xs={12} display={"flex"} justifyContent={"space-around"}>
+              <Grid item xs={12} md={5}>
+                <TextField
+                  label="Team 1 Score"
+                  name="team1Score"
+                  type="number"
+                  value={matchDetails.team1Score}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
 
-              <TextField
-                label="Team 2 Score"
-                name="team2Score"
-                type="number"
-                value={matchDetails.team2Score}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-              />
+              <Grid item xs={12} md={5}>
+                <TextField
+                  label="Team 2 Score"
+                  name="team2Score"
+                  type="number"
+                  value={matchDetails.team2Score}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle1">Team 1</Typography>
@@ -174,7 +178,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
                 onMovePlayer={(playerId) =>
                   movePlayerToTeam(playerId, "team2", "team1")
                 }
-                direction="right"
+                direction="left"
                 isFirst="2"
               />
             </Grid>

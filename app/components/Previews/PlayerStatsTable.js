@@ -20,6 +20,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 const PlayerStatsTable = () => {
   const { players } = useContext(PlayersContext);
   const [sortCriterion, setSortCriterion] = useState("gamesPlayed");
+  const [secondarySortCriterion, setSecondarySortCriterion] = useState("matchScore");
   const [sortDirection, setSortDirection] = useState("desc");
 
   const sortIconStyle = (isActive) => ({
@@ -29,34 +30,59 @@ const PlayerStatsTable = () => {
     marginright: 4, // spacing from the header text
   });
 
-  const handleSort = (criterion) => {
-    const isAsc = sortCriterion === criterion && sortDirection === "asc";
-    setSortCriterion(criterion);
+  const handleSort = (primaryCriterion, secondaryCriterion) => {
+    const isAsc = sortCriterion === primaryCriterion && sortDirection === "asc";
+    setSortCriterion(primaryCriterion);
     setSortDirection(isAsc ? "desc" : "asc");
+    setSecondarySortCriterion(secondaryCriterion); 
   };
 
-  const sortPlayers = (players, criterion, direction) => {
+  const sortPlayers = (players, primaryCriterion, secondaryCriterion, direction) => {
     return [...players].sort((a, b) => {
-      let aValue = a[criterion];
-      let bValue = b[criterion];
-
-      // If the criterion is 'winRatio', parse the values as floats
-      if (criterion === "winRatio") {
+      let aValue = a[primaryCriterion];
+      let bValue = b[primaryCriterion];
+  
+      // If the primary criterion is 'winRatio', parse the values as floats
+      if (primaryCriterion === "winRatio") {
         aValue = parseFloat(aValue);
         bValue = parseFloat(bValue);
       }
-
+  
       if (aValue < bValue) {
         return direction === "asc" ? -1 : 1;
       }
       if (aValue > bValue) {
         return direction === "asc" ? 1 : -1;
       }
+  
+      // If the primary criterion is equal, use the secondary criterion for tiebreaking
+      if (secondaryCriterion) {
+        const secondaryAValue = a[secondaryCriterion];
+        const secondaryBValue = b[secondaryCriterion];
+  
+        if (secondaryAValue < secondaryBValue) {
+          return direction === "asc" ? -1 : 1;
+        }
+        if (secondaryAValue > secondaryBValue) {
+          return direction === "asc" ? 1 : -1;
+        }
+      }
+  
+      // If both primary and secondary criteria are equal, use matchScore as the final tiebreaker
+      if (a.matchScore < b.matchScore) {
+        return direction === "asc" ? -1 : 1;
+      }
+      if (a.matchScore > b.matchScore) {
+        return direction === "asc" ? 1 : -1;
+      }
+  
       return 0;
     });
   };
-
-  const sortedPlayers = sortPlayers(players, sortCriterion, sortDirection);
+  
+  
+  const sortedPlayers = sortPlayers(players, sortCriterion, secondarySortCriterion, sortDirection);
+  
 
   return (
     <Box>
