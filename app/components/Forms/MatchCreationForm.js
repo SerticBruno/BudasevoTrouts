@@ -1,7 +1,7 @@
 // ParentComponent.js
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import MatchCreationModal from "./MatchCreationModal";
+import MatchCreationModal from "../Modals/MatchCreationModal";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const MatchCreationForm = () => {

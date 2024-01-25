@@ -13,11 +13,11 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import GamesContext from "../contexts/GamesContext";
-import PlayersContext from "../contexts/PlayersContext";
-import TeamList from "./TeamList"; // Import TeamList component
-import PlayerSelection from "./PlayerSelection";
-import { assignTeamsBalanced } from "../utils/teamsBalancer";
+import GamesContext from "../../contexts/GamesContext";
+import PlayersContext from "../../contexts/PlayersContext";
+import TeamList from "../Forms/FormComponents/TeamList"; // Import TeamList component
+import PlayerSelection from "../Forms/FormComponents/PlayerSelection";
+import { assignTeamsBalanced } from "../../utils/teamsBalancer";
 
 const MatchCreationModal = ({ open, onClose }) => {
   const today = new Date().toISOString().split("T")[0];

@@ -11,11 +11,12 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import GamesContext from "../contexts/GamesContext";
-import PlayersContext from "../contexts/PlayersContext";
-import TeamList from "./TeamList";
+import GamesContext from "../../contexts/GamesContext";
+import PlayersContext from "../../contexts/PlayersContext";
+import TeamList from "./FormComponents/TeamList";
 
 const MatchEditForm = ({ match, open, onClose, onSave }) => {
+  
   const [matchDetails, setMatchDetails] = useState({
     ...match,
     team1Score: match.team1Score || 0,
@@ -173,7 +174,7 @@ const MatchEditForm = ({ match, open, onClose, onSave }) => {
                 onMovePlayer={(playerId) =>
                   movePlayerToTeam(playerId, "team2", "team1")
                 }
-                direction="left"
+                direction="right"
                 isFirst="2"
               />
             </Grid>

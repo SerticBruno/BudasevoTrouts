@@ -11,9 +11,9 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TeamList from "./TeamList";
+import TeamList from "../Forms/FormComponents/TeamList";
 
-const GameAccordion = ({ game, onEdit, onDelete }) => {
+const MatchAccordion = ({ game, onEdit, onDelete }) => {
   const formatDate = (dateString) => {
     const months = [
       "January",
@@ -54,6 +54,14 @@ const GameAccordion = ({ game, onEdit, onDelete }) => {
     } else {
       return "Draw";
     }
+  };
+
+  const movePlayerToTeam = (playerId, fromTeam, toTeam) => {
+    setMatchDetails((prevState) => {
+      const newFromTeam = prevState[fromTeam].filter((id) => id !== playerId);
+      const newToTeam = [...prevState[toTeam], playerId];
+      return { ...prevState, [fromTeam]: newFromTeam, [toTeam]: newToTeam };
+    });
   };
 
   const determineForTeam2 = () => {
@@ -111,7 +119,7 @@ const GameAccordion = ({ game, onEdit, onDelete }) => {
             </Typography>
             <Typography variant="subtitle1">Team 2:</Typography>
             <TeamList
-              team={game.team1}
+              team={game.team2}
               onMovePlayer={(playerId) =>
                 movePlayerToTeam(playerId, "team1", "team2")
               }
@@ -134,4 +142,4 @@ const GameAccordion = ({ game, onEdit, onDelete }) => {
   );
 };
 
-export default GameAccordion;
+export default MatchAccordion;

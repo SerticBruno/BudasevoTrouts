@@ -13,7 +13,7 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import PlayersContext from "../contexts/PlayersContext";
+import PlayersContext from "../../contexts/PlayersContext";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 

@@ -26,16 +26,16 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import GamesContext from "../contexts/GamesContext";
-import MatchEditForm from "./MatchEditForm";
+import GamesContext from "../../contexts/GamesContext";
+import MatchEditForm from "../Forms/MatchEditForm";
 import Skeleton from "@mui/material/Skeleton"; // Importing Skeleton component
 
-import PlayersContext from "../contexts/PlayersContext"; // Import PlayersContext
-import MatchCreationForm from "../components/MatchCreationForm";
-import GameAccordion from "./GameAccordion";
-import LoadingBar from "../components/Loaders/LoadingBar";
+import PlayersContext from "../../contexts/PlayersContext"; // Import PlayersContext
+import MatchCreationForm from "../Forms/MatchCreationForm";
+import MatchAccordion from "../Accordions/MatchAccordion";
+import LoadingBar from "../Loaders/LoadingBar";
 
-const GamesList = () => {
+const MatchesList = () => {
   const { games, refreshGames } = useContext(GamesContext);
   const { players } = useContext(PlayersContext); // Get players data
   const [openDialog, setOpenDialog] = useState(false);
@@ -104,7 +104,7 @@ const GamesList = () => {
         </Box>
       ) : (
         games.map((game, index) => (
-          <GameAccordion
+          <MatchAccordion
             key={index}
             game={game}
             onEdit={handleEditClick}
@@ -143,4 +143,4 @@ const GamesList = () => {
   );
 };
 
-export default GamesList;
+export default MatchesList;
