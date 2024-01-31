@@ -13,7 +13,7 @@ const Martinov = () => {
       <MartinovaKomponenta></MartinovaKomponenta>
       <Box display={"flex"} justifyContent={"center"}>
 
-      <GameTimer initialDuration={35} ></GameTimer>
+      <GameTimer initialMinutes={35} initialSeconds={0} ></GameTimer>
       </Box>
     </Layout>
   );
