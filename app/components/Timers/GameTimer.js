@@ -1,8 +1,7 @@
 // GameTimer.js
 
-import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import { Box, TextField, Paper } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Box, TextField, Button, Paper } from "@mui/material";
 import { styled } from "@mui/system";
 
 const Container = styled("div")({
@@ -10,6 +9,7 @@ const Container = styled("div")({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
+  height: "100vh", // Set the height of the container to fill the viewport
 });
 
 const FullscreenContainer = styled("div")({
@@ -17,7 +17,7 @@ const FullscreenContainer = styled("div")({
   textAlign: "center",
   fontFamily: "monospace",
   minHeight: "120vh",
-  marginTop: "10px",
+  marginTop: "0px", // Adjusted marginTop to center vertically
 });
 
 const TimerContainer = styled("div")({
@@ -28,35 +28,57 @@ const TimerContainer = styled("div")({
 
 const ButtonContainer = styled("div")({
   display: "flex",
+  flexDirection: "column", // Change to column layout
   gap: "10px",
 });
 
-const GameTimer = ({ initialDuration }) => {
-  const [duration, setDuration] = useState(initialDuration * 60); // Convert minutes to seconds
+const GameTimer = ({ initialMinutes, initialSeconds }) => {
+  const [minutes, setMinutes] = useState(initialMinutes);
+  const [seconds, setSeconds] = useState(initialSeconds);
+
   const [isActive, setIsActive] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [inputMinutes, setInputMinutes] = useState(initialDuration);
-
-  useEffect(() => {
-    setDuration(inputMinutes * 60);
-  }, [inputMinutes]);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     let interval;
 
-    if (isActive && duration > 0) {
+    if (isActive && (minutes > 0 || seconds > 0)) {
       interval = setInterval(() => {
-        setDuration((prevDuration) => prevDuration - 1);
+        if (seconds === 0) {
+          if (minutes === 0) {
+            clearInterval(interval);
+            setIsActive(false);
+          } else {
+            setMinutes((prevMinutes) => prevMinutes - 1);
+            setSeconds(59);
+          }
+        } else {
+          setSeconds((prevSeconds) => prevSeconds - 1);
+        }
       }, 1000);
     }
 
     return () => clearInterval(interval);
-  }, [isActive, duration]);
+  }, [isActive, minutes, seconds]);
 
-  const handleInputChange = (event) => {
-    const inputValue = event.target.value;
-    setInputMinutes(inputValue);
-  };
+  // useEffect(() => {
+  //   if (isFullscreen && timerRef.current) {
+  //     timerRef.current.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "center",
+  //       inline: "center",
+  //     });
+  //   }
+  // }, [isFullscreen]);
+
+  // useEffect(() => {
+  //   if (isFullscreen) {
+  //     document.body.style.overflow = "hidden"; // Hide scrollbar
+  //   } else {
+  //     document.body.style.overflow = "auto"; // Show scrollbar
+  //   }
+  // }, [isFullscreen]);
 
   const toggleTimer = () => {
     setIsActive((prevIsActive) => !prevIsActive);
@@ -64,7 +86,8 @@ const GameTimer = ({ initialDuration }) => {
 
   const resetTimer = () => {
     setIsActive(false);
-    setDuration(inputMinutes * 60);
+    setMinutes(initialMinutes);
+    setSeconds(initialSeconds);
   };
 
   const formatTime = (time) => {
@@ -88,62 +111,28 @@ const GameTimer = ({ initialDuration }) => {
     }
   };
 
-  const hideFullscreen = () => {
-    document.exitFullscreen();
-    setIsFullscreen(false);
+  const handleTimerDoubleClick = () => {
+    toggleFullscreen();
   };
 
   return (
-    <Container>
+    <Container >
       {isFullscreen ? (
         <FullscreenContainer>
-          {formatTime(duration)}
-          <Box display={"flex"} justifyContent={"center"}>
-            <Paper sx={{ padding: 3, marginBottom: 3 }}>
-              <ButtonContainer>
-                <Button
-                  variant="contained"
-                  sx={{ color: "black" }}
-                  onClick={toggleTimer}
-                >
-                  {isActive ? "Pause" : "Start"}
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ color: "black" }}
-                  onClick={resetTimer}
-                >
-                  Reset
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ color: "black" }}
-                  onClick={toggleFullscreen}
-                >
-                  Toggle Fullscreen
-                </Button>
-              </ButtonContainer>
-            </Paper>
+          <Box
+            ref={timerRef}
+            onClick={toggleTimer}
+            onDoubleClick={handleTimerDoubleClick} // Toggle fullscreen on double click
+            marginBottom={"25rem"}
+            sx={{ color: "red" }}
+          >
+            {`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+              2,
+              "0"
+            )}`}
           </Box>
-        </FullscreenContainer>
-      ) : (
-        <TimerContainer sx={{marginBottom: 3 }}>
-          <Box sx={{fontSize: "12rem"}}>{formatTime(duration)}</Box>
-          <Paper sx={{ padding: 3 }}>
-            <TextField
-              label="Set Minutes"
-              type="number"
-              value={inputMinutes}
-              onChange={handleInputChange}
-            />
-            <ButtonContainer sx={{ marginTop: "20px" }}>
-              <Button
-                variant="contained"
-                sx={{ color: "black" }}
-                onClick={toggleTimer}
-              >
-                {isActive ? "Pause" : "Start"}
-              </Button>
+          <Paper sx={{ padding: 3, marginBottom: 3 }}>
+            <ButtonContainer>
               <Button
                 variant="contained"
                 sx={{ color: "black" }}
@@ -151,12 +140,46 @@ const GameTimer = ({ initialDuration }) => {
               >
                 Reset
               </Button>
+            </ButtonContainer>
+          </Paper>
+        </FullscreenContainer>
+      ) : (
+        <TimerContainer
+          // Toggle fullscreen on double click
+          onClick={toggleTimer}
+          onDoubleClick={handleTimerDoubleClick}
+        >
+          <Box sx={{ fontSize: "12rem", marginBottom: "5rem", color: "red" }}>{`${String(
+            minutes
+          ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</Box>
+          <Paper sx={{ padding: 3, marginTop: "20px" }}>
+            <Box>
+              <TextField
+                label="Minutes"
+                type="number"
+                value={minutes}
+                onClick={toggleTimer}
+                onDoubleClick={handleTimerDoubleClick}
+                cursor={"pointer"}
+                onChange={(e) => setMinutes(parseInt(e.target.value) || 0)}
+              />
+              <TextField
+                label="Seconds"
+                type="number"
+                value={seconds}
+                onClick={toggleTimer}
+                onDoubleClick={handleTimerDoubleClick}
+                cursor={"pointer"}
+                onChange={(e) => setSeconds(parseInt(e.target.value) || 0)}
+              />
+            </Box>
+            <ButtonContainer>
               <Button
                 variant="contained"
                 sx={{ color: "black" }}
-                onClick={toggleFullscreen}
+                onClick={resetTimer}
               >
-                Toggle Fullscreen
+                Reset
               </Button>
             </ButtonContainer>
           </Paper>
