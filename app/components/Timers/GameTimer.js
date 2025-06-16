@@ -62,24 +62,6 @@ const GameTimer = ({ initialMinutes, initialSeconds }) => {
     return () => clearInterval(interval);
   }, [isActive, minutes, seconds]);
 
-  // useEffect(() => {
-  //   if (isFullscreen && timerRef.current) {
-  //     timerRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "center",
-  //       inline: "center",
-  //     });
-  //   }
-  // }, [isFullscreen]);
-
-  // useEffect(() => {
-  //   if (isFullscreen) {
-  //     document.body.style.overflow = "hidden"; // Hide scrollbar
-  //   } else {
-  //     document.body.style.overflow = "auto"; // Show scrollbar
-  //   }
-  // }, [isFullscreen]);
-
   const toggleTimer = () => {
     setIsActive((prevIsActive) => !prevIsActive);
   };
